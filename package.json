@@ -1,0 +1,26 @@
+{
+  "name": "I4PRJ4-Web",
+  "version": "1.0.0",
+  "description": "The webinterface for PRJ4",
+  "author": "Christian H. Bohlbro, Mathias Gade",
+  "private": true,
+  "scripts": {
+    "dev": "nuxt",
+    "build": "nuxt build",
+    "start": "nuxt start",
+    "generate": "nuxt generate",
+    "test": "jest"
+  },
+  "dependencies": {
+    "cross-env": "^5.2.0",
+    "nuxt": "^2.4.0"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.9",
+    "@vue/test-utils": "^1.0.0-beta.27",
+    "babel-core": "7.0.0-bridge.0",
+    "babel-jest": "^23.6.0",
+    "jest": "^23.6.0",
+    "vue-jest": "^3.0.2"
+  }
+}
