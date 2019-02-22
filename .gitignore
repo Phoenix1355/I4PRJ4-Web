@@ -1,3 +1,14 @@
+# Trash files
+.htaccess
+.htpasswd
+sitemap.*
+*.DS_Store
+*[Tt]humbs.db
+*.Trashes
+*.sublime-*
+*.ini
+*.vscode
+
 # Created by .ignore support plugin (hsz.mobi)
 ### Node template
 # Logs
