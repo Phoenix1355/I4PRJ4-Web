@@ -61,6 +61,7 @@ html {
     text-decoration: none;
     padding: 10px 30px;
     margin-left: 15px;
+    cursor: pointer;
 }
 
 .button--blue:hover {

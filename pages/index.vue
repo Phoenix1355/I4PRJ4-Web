@@ -1,7 +1,7 @@
 <template>
     <section class="container">
         <div>
-              <button v-on:click="retrieve">
+              <button v-on:click="retrieve" class="button--blue">
                 Refresh
               </button>
               <ul>
