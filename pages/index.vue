@@ -1,55 +1,60 @@
 <template>
     <section class="container">
         <div>
-              <button v-on:click="retrieve" class="button--blue">
-                Refresh
-              </button>
-              <ul>
-                <li v-for="item in items">
-                  {{ item.id }}
-                  {{ item.departureTime }}
+            <div class="buttons">
+                <button v-on:click="retrieve"
+                    class="button button--blue">
+                    Refresh
+                </button>
+            </div>
+            <ul class="list">
+                <li v-for="item in items" class="item">
+                    <p class="item-id">
+                        {{ item.id }}
+                    </p>
+                    <p class="item-dt">
+                        {{ item.departureTime.format("D MMM YYYY, HH:mm") }}
+                    </p>
                 </li>
-              </ul>
+            </ul>
         </div>
     </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue';
-
 import axios from 'axios';
+import moment from 'moment';
 
 axios.defaults.baseURL = "https://smartcabpocwebapi.azurewebsites.net";
 
 export default {
-    components: {
-        Logo
-    },
     data: () => {
-      return {
-        items: []
-      }
+        return {
+            items: [],
+        }
     },
     methods: {
-      retrieve () {
-        console.log("hej")
-        axios.get("/api/rides")
-          .then(res => {
-            this.items = res.data;
-          })
-      }
+        retrieve () {
+            console.log("Requested rides from api");
+
+            axios.get("/api/rides")
+                .then(res => {
+                    this.items = res.data.map(item => ({
+                        id: item.id,
+                        departureTime: new moment(item.departureTime),
+                    }))
+                });
+        }
     }
 }
 </script>
 
-<style>
+<style lang="scss">
 .container {
-    margin: 0 auto;
-    min-height: 100vh;
     display: flex;
     justify-content: center;
-    align-items: center;
-    text-align: center;
+    min-height: 100vh;
+    margin: 60px auto;
 }
 
 .title {
@@ -74,10 +79,33 @@ export default {
     padding-top: 15px;
 }
 
-.rideContainer{
-  padding: 20px 20px;
-  font-weight: 300;
-  color: #526488;
-  text-align: left;
+.buttons {
+    text-align: center;
+}
+
+.list {
+    width: 400px;
+    padding: 0;
+    margin: 40px 0;
+
+    list-style: none;
+}
+
+.item {
+    display: flex;
+    width: 100%;
+    padding: 10px 5px;
+
+    border-bottom: 1px solid #DDD;
+
+    .item-id {
+        width: 40px;
+    }
+    .item-dt {
+        flex: 1;
+        width: 100%;
+
+        text-align: right;
+    }
 }
 </style>

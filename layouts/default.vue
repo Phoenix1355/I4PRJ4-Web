@@ -4,7 +4,7 @@
     </div>
 </template>
 
-<style>
+<style lang="scss">
 html {
     font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI',
     Roboto, 'Helvetica Neue', Arial, sans-serif;
@@ -17,6 +17,9 @@ html {
     box-sizing: border-box;
 }
 
+$color-blue: #425D83;
+$color-green: #3b8070;
+
 *,
 *:before,
 *:after {
@@ -24,28 +27,33 @@ html {
     margin: 0;
 }
 
-.button--green {
+.button {
     display: inline-block;
+    padding: 10px 30px;
+    margin-left: 15px;
+
+    text-decoration: none;
+    font-size: 16px;
+
     border-radius: 4px;
-    border: 1px solid #3b8070;
-    color: #3b8070;
+    border: 1px solid #35495e;
+    color: #35495e;
+    outline: 0;
+
+    cursor: pointer;
+    transition: 150ms ease;
+}
+
+.button--green {
+    border: 1px solid $color-green;
+    color: $color-green;
     text-decoration: none;
     padding: 10px 30px;
 }
 
 .button--green:hover {
     color: #fff;
-    background-color: #3b8070;
-}
-
-.button--grey {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
+    background-color: $color-green;
 }
 
 .button--grey:hover {
@@ -54,18 +62,12 @@ html {
 }
 
 .button--blue {
-    display: inline-block;
-    border-radius: 4px;
-    border: 1px solid #35495e;
-    color: #35495e;
-    text-decoration: none;
-    padding: 10px 30px;
-    margin-left: 15px;
-    cursor: pointer;
+    color: $color-blue;
+    border: 1px solid $color-blue;
 }
 
 .button--blue:hover {
     color: #fff;
-    background-color: lightblue;
+    background-color: $color-blue;
 }
 </style>
