@@ -1,35 +1,43 @@
 <template>
     <section class="container">
         <div>
-            <logo />
-            <h1 class="title">
-                I4PRJ4-Web
-            </h1>
-            <h2 class="subtitle">
-                The webinterface for PRJ4
-            </h2>
-            <div class="links">
-                <a
-                    href="https://nuxtjs.org/"
-                    target="_blank"
-                    class="button--green"
-                >Documentation</a>
-                <a
-                    href="https://github.com/nuxt/nuxt.js"
-                    target="_blank"
-                    class="button--grey"
-                >GitHub</a>
-            </div>
+              <button v-on:click="retrieve">
+                Refresh
+              </button>
+              <ul>
+                <li v-for="item in items">
+                  {{ item.id }}
+                  {{ item.departureTime }}
+                </li>
+              </ul>
         </div>
     </section>
 </template>
 
 <script>
-import Logo from '~/components/Logo.vue'
+import Logo from '~/components/Logo.vue';
+
+import axios from 'axios';
+
+axios.defaults.baseURL = "https://smartcabpocwebapi.azurewebsites.net";
 
 export default {
     components: {
         Logo
+    },
+    data: () => {
+      return {
+        items: []
+      }
+    },
+    methods: {
+      retrieve () {
+        console.log("hej")
+        axios.get("/api/rides")
+          .then(res => {
+            this.items = res.data;
+          })
+      }
     }
 }
 </script>
@@ -64,5 +72,12 @@ export default {
 
 .links {
     padding-top: 15px;
+}
+
+.rideContainer{
+  padding: 20px 20px;
+  font-weight: 300;
+  color: #526488;
+  text-align: left;
 }
 </style>
