@@ -40,7 +40,22 @@ module.exports = {
     ** Nuxt.js modules
     */
     modules: [
+        '@nuxtjs/axios',
     ],
+
+    /*
+    ** Nuxt.js axios
+     */
+    axios: {
+        baseUrl: 'https://smartcabbackend.azurewebsites.net',
+    },
+
+    /*
+    ** Nuxt.js routing
+    */
+    router: {
+        // base: '/prj4-web-test/',
+    },
 
     /*
     ** Build configuration
