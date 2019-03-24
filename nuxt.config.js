@@ -28,6 +28,7 @@ module.exports = {
     ** Global CSS
     */
     css: [
+        '@/styles/main.scss',
     ],
 
     /*

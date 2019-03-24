@@ -22,10 +22,16 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss">
+@import '../styles/helpers.scss';
+
 .container {
-    max-width: 600px;
+    max-width: 400px;
     width: 100%;
     margin: 0 auto;
+
+    @include bp(xl) {
+        max-width: 600px;
+    }
 }
 </style>
