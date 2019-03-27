@@ -36,3 +36,17 @@ This will generate the static files (HTML, CSS and JS), which are all ready for 
 ## Documentation
 
 The project is made using Nuxt.js. For detailed explanation on how things work, checkout [Nuxt.js docs](https://nuxtjs.org).
+
+## Testing
+
+
+
+```json
+{
+  "email": "test@test.dk",
+  "password": "Hejhej123-",
+  "passwordRepeated": "Hejhej123-",
+  "name": "Test Vognmandskonto",
+  "phoneNumber": "88888888"
+}
+```

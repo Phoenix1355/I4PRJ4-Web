@@ -48,7 +48,7 @@ module.exports = {
     ** Nuxt.js axios
      */
     axios: {
-        baseUrl: 'https://smartcabbackend.azurewebsites.net',
+        baseURL: 'https://smartcabbackend.azurewebsites.net',
     },
 
     /*

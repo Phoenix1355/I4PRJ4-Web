@@ -9,7 +9,8 @@
     "build": "nuxt build",
     "start": "nuxt start",
     "generate": "nuxt generate",
-    "test": "jest"
+    "test": "jest",
+    "docs": "jsdoc -d docs -c .jsdoc.js"
   },
   "dependencies": {
     "@nuxtjs/axios": "^5.4.1",
