@@ -1,5 +1,5 @@
 <template>
-    <section class="container">
+    <Container>
         <h1>Login</h1>
         <p>Velkommen tilbage, venligst log ind på din konto.</p>
         <p v-if="errorMessage !== ''" class="error">{{ errorMessage }}</p>
@@ -31,15 +31,20 @@
                         >
                     </label>
                 </div>
-                <Button type="submit">Log ind</Button>
+                <Button type="submit">
+                    <span v-if="!waiting">Log ind</span>
+                    <span v-else>Loading</span>
+                </Button>
             </form>
         </div>
-    </section>
+    </Container>
 </template>
 
 <script type="text/javascript">
-import Button from '../components/Button.vue';
 import Cookie from 'js-cookie';
+
+import Container from '../components/Container.vue';
+import Button from '../components/Button.vue';
 
 // List of status errors and the message to display.
 const errors = {
@@ -71,6 +76,13 @@ export default {
 
             return errors[errorStatus];
         },
+        waiting() {
+            const {
+                waiting,
+            } = this.$store.state;
+
+            return waiting ? true : false; // Force bool
+        }
     },
     methods: {
         login() {
@@ -84,6 +96,7 @@ export default {
     },
     components: {
         Button,
+        Container,
     },
 };
 </script>

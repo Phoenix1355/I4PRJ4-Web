@@ -1,16 +1,17 @@
 <template>
-    <section class="container">
+    <Container>
         <h1>Turoversigt</h1>
         <div v-if="$store.state.auth">
             <p>Velkommen, {{ name }}</p>
-            <p><Button @click="logout">Logout</Button></p>
+            <p><Button :onClick="logout">Logout</Button></p>
         </div>
-    </section>
+    </Container>
 </template>
 
 <script>
 import Cookie from 'js-cookie';
 
+import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
 /**
@@ -38,6 +39,7 @@ export default {
     },
     components: {
         Button,
+        Container,
     },
 }
 </script>

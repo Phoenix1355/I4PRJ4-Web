@@ -10,6 +10,7 @@ const createStore = () => {
                 name: '',
                 email: '',
             },
+            waiting: false, // Waiting for an api call
         },
         mutations: {
             setAuth(state, auth) {
@@ -21,16 +22,23 @@ const createStore = () => {
             setErrorStatus(state, error) {
                 state.errorStatus = error;
             },
+            setWaiting(state, wait) {
+                state.waiting = wait;
+            }
         },
         actions: {
             login ({commit, dispatch}, data) {
+                commit('setWaiting', true);
+
                 this.$axios.post('/api/Customer/Login', data) // should be api/TaxiCompany/Login
                     .then(res => {
-                        console.log("res:", res);
                         const {
                             token,
                             customer,
                         } = res.data;
+
+                        // Response received, stop waiting
+                        commit('setWaiting', false);
 
                         // Set state auth
                         commit('setAuth', token);
@@ -39,18 +47,26 @@ const createStore = () => {
                         // Set cookie for saving the session
                         Cookie.set('token', token);
 
+                        // Reset error status
+                        commit('setErrorStatus', 0);
+
                         // Redirect to index
                         this.$router.push('/');
                     })
                     .catch(err => {
-                        console.log(err.response);
+                        commit('setWaiting', false);
+
                         commit('setErrorStatus', err.response.status);
+
+                        console.error(err.response);
                     });
             },
             logout ({commit, dispatch}) {
                 Cookie.remove('token');
 
                 commit('setAuth', null);
+
+                commit('setErrorStatus', 0);
             },
             signup ({commit, dispatch}, data) {
                 // TODO: Implement signup method

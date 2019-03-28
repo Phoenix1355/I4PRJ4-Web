@@ -1,8 +1,20 @@
 <template>
-    <button class="button">
+    <button class="button" @click="onClick">
         <slot>Button</slot>
     </button>
 </template>
+
+<script>
+export default {
+    props: {
+        onClick: {
+            type: Function,
+            required: false,
+            default: () => {},
+        },
+    },
+};
+</script>
 
 <style lang="scss">
 @import '../styles/helpers.scss';
