@@ -1,0 +1,43 @@
+/* ---------------------------------- *\
+    Elements
+\* ---------------------------------- */
+
+img {
+    max-width: 100%;
+}
+
+a {
+    @extend .oat;
+
+    text-decoration: none;
+
+    color: $blue;
+
+    &:hover {
+        text-decoration: underline;
+    }
+}
+
+strong {
+    font-weight: $weight-bold;
+
+    color: #515151;
+}
+
+button {
+    @extend .barley;
+
+    background: none;
+}
+
+ul {
+    @extend .oat;
+
+    padding-left: 30px;
+
+    list-style: disc;
+}
+
+ul li {
+    margin: 10px 0;
+}

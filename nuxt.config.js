@@ -28,6 +28,7 @@ module.exports = {
     ** Global CSS
     */
     css: [
+        '@/styles/main.scss',
     ],
 
     /*
@@ -40,7 +41,22 @@ module.exports = {
     ** Nuxt.js modules
     */
     modules: [
+        '@nuxtjs/axios',
     ],
+
+    /*
+    ** Nuxt.js axios
+     */
+    axios: {
+        baseURL: 'https://smartcabbackend.azurewebsites.net',
+    },
+
+    /*
+    ** Nuxt.js routing
+    */
+    router: {
+        // base: '/prj4-web-test/',
+    },
 
     /*
     ** Build configuration
