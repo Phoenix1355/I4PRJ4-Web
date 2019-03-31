@@ -1,0 +1,132 @@
+/* ---------------------------------- *\
+    Typography
+\* ---------------------------------- */
+
+body {
+	-ms-text-size-adjust: 100%;
+    -webkit-text-size-adjust: 100%;
+    -moz-osx-font-smoothing: grayscale;
+    -webkit-font-smoothing: antialiased;
+
+	font-family: $font-body;
+
+	color: $black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+	margin: 10px 0;
+	clear: both;
+
+	font-weight: $weight-bold;
+	word-wrap: break-word;
+
+	span {
+		font-weight: $weight-light;
+	}
+
+	@include bp(lg) {
+		margin: 20px 0;
+	}
+}
+
+h1, .whale {
+	font-size: 30px;
+	line-height: 38px;
+
+	@include bp(lg) {
+		font-size: 38px;
+		line-height: 46px;
+	}
+
+	@include bp(hg) {
+		font-size: 50px;
+		line-height: 58px;
+	}
+}
+h2, .elephant {
+	font-size: 26px;
+	line-height: 34px;
+
+	/*
+	@include bp(lg) {
+		font-size: 32px;
+		line-height: 40px;
+	}
+	*/
+
+	@include bp(hg) {
+		font-size: 42px;
+		line-height: 50px;
+	}
+}
+h3, .horse {
+	font-size: 22px;
+	line-height: 30px;
+
+	@include bp(hg) {
+		font-size: 36px;
+		line-height: 44px;
+	}
+}
+h4, .lion {
+    font-size: 18px;
+    line-height: 26px;
+
+	@include bp(hg) {
+		font-size: 22px;
+	    line-height: 30px;
+	}
+}
+
+.wheat {
+	font-size: 18px;
+    line-height: 26px;
+
+	@include bp(hg) {
+		font-size: 22px;
+	    line-height: 30px;
+	}
+}
+
+p, .oat {
+	margin: 10px 0;
+
+	font-size: 16px;
+	line-height: 22px;
+	font-weight: $weight-regular;
+
+	@include bp(hg) {
+		margin: 20px 0;
+
+		font-size: 18px;
+		line-height: 28px;
+	}
+
+	& + h1,
+	& + h2,
+	& + h3,
+	& + h4,
+	& + h5 {
+		margin-top: 30px;
+
+		@include bp(hg) {
+			margin-top: 60px;
+		}
+	}
+}
+
+small, .barley {
+	padding: 4px 0 0;
+
+	font-size: 14px;
+	line-height: 18px;
+
+	@include bp(hg) {
+		font-size: 15px;
+		line-height: 19px;
+	}
+}
