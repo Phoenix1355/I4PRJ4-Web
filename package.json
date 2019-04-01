@@ -10,6 +10,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "test": "jest",
+    "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
     "docs": "jsdoc -d docs -c .jsdoc.js"
   },
   "dependencies": {
@@ -25,6 +26,7 @@
     "@vue/test-utils": "^1.0.0-beta.27",
     "babel-core": "7.0.0-bridge.0",
     "babel-jest": "^24.5.0",
+    "coveralls": "^3.0.3",
     "jest": "^24.5.0",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.9",
