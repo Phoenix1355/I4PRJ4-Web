@@ -1,12 +1,13 @@
 <template lang="html">
     <div class="container">
-        <slot></slot>
+        <slot />
     </div>
 </template>
 
 <script>
 export default {
-}
+
+};
 </script>
 
 <style lang="scss">

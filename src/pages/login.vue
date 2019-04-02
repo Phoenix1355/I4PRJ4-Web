@@ -2,19 +2,24 @@
     <Container>
         <h1>Login</h1>
         <p>Velkommen tilbage, venligst log ind på din konto.</p>
-        <p v-if="errorMessage !== ''" class="error">{{ errorMessage }}</p>
+        <p
+            v-if="errorMessage !== ''"
+            class="error"
+        >
+            {{ errorMessage }}
+        </p>
         <div class="login-form">
             <form @submit.prevent="login">
                 <div class="input-group">
                     <label for="email">
                         <small>Email adresse</small>
                         <input
-                            required
+                            id="email"
                             v-model="email"
+                            required
                             type="email"
                             name="email"
                             placeholder="Email"
-                            id="email"
                         >
                     </label>
                 </div>
@@ -22,12 +27,12 @@
                     <label for="password">
                         <small>Kodeord</small>
                         <input
-                            required
+                            id="password"
                             v-model="password"
+                            required
                             type="password"
                             name="password"
                             placeholder="Kodeord"
-                            id="password"
                         >
                     </label>
                 </div>
@@ -41,8 +46,6 @@
 </template>
 
 <script type="text/javascript">
-import Cookie from 'js-cookie';
-
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
@@ -63,7 +66,10 @@ const errors = {
  * @vue-event {String} login - The login method used for logging in
  */
 export default {
-    // middleware: 'auth',
+    components: {
+        Button,
+        Container,
+    },
     data: () => ({
         email: '',
         password: '',
@@ -71,18 +77,18 @@ export default {
     computed: {
         errorMessage() {
             const {
-                errorStatus,
-            } = this.$store.state;
+                error,
+            } = this.$store.state.auth;
 
-            return errors[errorStatus];
+            return errors[error];
         },
         waiting() {
             const {
                 waiting,
-            } = this.$store.state;
+            } = this.$store.state.api;
 
-            return waiting ? true : false; // Force bool
-        }
+            return waiting; // Force bool
+        },
     },
     methods: {
         login() {
@@ -91,12 +97,8 @@ export default {
                 password,
             } = this;
 
-            this.$store.dispatch('login', { email, password });
-        }
-    },
-    components: {
-        Button,
-        Container,
+            this.$store.dispatch('auth/login', { email, password });
+        },
     },
 };
 </script>
