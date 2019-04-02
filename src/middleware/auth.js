@@ -1,19 +1,27 @@
+/**
+ * Authentication middleware
+ *
+ * Used for pages that require authentication to view. It will redirect the
+ * user to login, if the required auth state is missing. It will also
+ * revalidate cookies if any is set.
+ */
+
 import Cookie from 'js-cookie';
 
 export default ({
     store,
     redirect,
 }) => {
-    const authPaths = ['/login', '/signup'];
-
+    // const authPaths = ['/login', '/signup'];
     if (Cookie.get('token')) {
         // User was authenticated in the previous session.
-        store.commit('setAuth', 'yeeet');
+        store.commit('AuthToken', Cookie.get('token'));
     }
 
-    if (!store.state.auth) {
+    if (!store.state.auth.token) {
         // Not authenticated
-        return redirect('/login');
+        console.log("Redirecting to '/login'");
+        redirect('/login');
     }
 };
 
@@ -29,7 +37,7 @@ export default ({
 
     if (Cookie.get('token')) {
         // User was authenticated in the previous session.
-        store.commit('setAuth', 'yeeet');
+        store.commit('AuthUser', 'yeeet');
     }
 
     if (!store.state.auth) {

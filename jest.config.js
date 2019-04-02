@@ -1,12 +1,20 @@
 module.exports = {
-  moduleNameMapper: {
-    '^@/(.*)$': '<rootDir>/$1',
-    '^~/(.*)$': '<rootDir>/$1',
-    '^vue$': 'vue/dist/vue.common.js'
-  },
-  moduleFileExtensions: ['js', 'vue', 'json'],
-  transform: {
-    '^.+\\.js$': 'babel-jest',
-    '.*\\.(vue)$': 'vue-jest',
-  }
+    collectCoverage: true,
+    collectCoverageFrom: [
+        'src/**/*.{js,vue}',
+    ],
+    moduleFileExtensions: [
+        'js',
+        'vue',
+        'json',
+    ],
+    transform: {
+        '^.+\\.js$': 'babel-jest',
+        '.*\\.(vue)$': 'vue-jest',
+    },
+    moduleNameMapper: {
+        '^@/(.*)$': '<rootDir>/src/$1',
+        '^~/(.*)$': '<rootDir>/src/$1',
+        '^vue$': 'vue/dist/vue.common.js'
+    },
 }
