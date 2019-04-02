@@ -1,11 +1,7 @@
 module.exports = {
     collectCoverage: true,
     collectCoverageFrom: [
-        'components/**/*.{js,vue}',
-        'pages/**/*.{js,vue}',
-        'layouts/**/*.{js,vue}',
-        'middleware/**/*.{js,vue}',
-        'store/**/*.{js,vue}',
+        'src/**/*.{js,vue}',
     ],
     moduleFileExtensions: [
         'js',
@@ -17,8 +13,8 @@ module.exports = {
         '.*\\.(vue)$': 'vue-jest',
     },
     moduleNameMapper: {
-        '^@/(.*)$': '<rootDir>/$1',
-        '^~/(.*)$': '<rootDir>/$1',
+        '^@/(.*)$': '<rootDir>/src/$1',
+        '^~/(.*)$': '<rootDir>/src/$1',
         '^vue$': 'vue/dist/vue.common.js'
     },
 }

@@ -1,16 +1,20 @@
 <template>
     <Container>
         <h1>Turoversigt</h1>
-        <div v-if="$store.state.auth">
+        <div v-if="loggedIn">
             <p>Velkommen, {{ name }}</p>
-            <p><Button :onClick="logout">Logout</Button></p>
+            <p>
+                <Button
+                    :on-click="logout"
+                >
+                    Logout
+                </Button>
+            </p>
         </div>
     </Container>
 </template>
 
 <script>
-import Cookie from 'js-cookie';
-
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
@@ -25,23 +29,26 @@ import Button from '../components/Button.vue';
  */
 export default {
     middleware: 'auth',
+    components: {
+        Button,
+        Container,
+    },
     computed: {
         name() {
             console.log(this.$store);
-            return this.$store.state.account.name;
+            return this.$store.state.auth.user.name;
+        },
+        loggedIn() {
+            return this.$store.state.auth.token != null;
         },
     },
     methods: {
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
-        }
+        },
     },
-    components: {
-        Button,
-        Container,
-    },
-}
+};
 </script>
 
 <style lang="scss">
