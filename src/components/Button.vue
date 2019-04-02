@@ -1,5 +1,8 @@
 <template>
-    <button class="button" @click="onClick">
+    <button
+        class="button"
+        @click="onClick"
+    >
         <slot>Button</slot>
     </button>
 </template>
