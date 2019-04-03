@@ -4,21 +4,28 @@
         <div v-if="loggedIn">
             <p>Velkommen, {{ name }}</p>
             <ul class="list">
-                <li v-for="item in items" class="ride">
-                    <p class="ride-startDestination">
-                        {{ ride.startDestination}}
+                <li v-for="item in items" class="item">
+                    <p class="item-startDestination">
+                        {{ item.startDestination}}
                     </p>
-                    <p class="ride-endDestination">
-                        {{ ride.slutDestination}}
+                    <p class="item-endDestination">
+                        {{ item.slutDestination}}
                     </p>
-                    <p class="ride-departureTime">
-                        {{ ride.departureTime.format("D MMM YYYY, HH:mm") }}
+                    <p class="item-departureTime">
+                        {{ item.departureTime.format("D MMM YYYY, HH:mm") }}
                     </p>
-                    <p class="ride-price">
-                        {{ ride.price }}
+                    <p class="item-price">
+                        {{ item.price }}
                     </p>
                 </li>
             </ul>
+            <p>
+                <Button
+                    :on-click="retrieve"
+                >
+                    Refresh
+                </Button>
+            </p>
             <p>
                 <Button
                     :on-click="logout"
@@ -34,7 +41,6 @@
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
-axios.default.baseURL = "https://smartcabbackend.azurewebsites.net";
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -65,6 +71,19 @@ export default {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
         },
+        retrieve() {
+            console.log("Requested rides from api");
+
+            this.$axios.get("/api/Rides/Open")
+                    .then(res => {
+                        this.items = res.data.map(item => ({
+                            startDestination: item.startDestination,
+                            slutDestination: item.slutDestination,
+                            departureTime: new moment(item.departureTime),
+                            price: item.price,
+                        }))
+                    });
+        },
     },
 };
 </script>
@@ -82,15 +101,15 @@ export default {
     }
 }
 
-.ride {
+.item {
     display: flex;
     width: 100%;
     padding: 10px 5px;
     border-bottom: 1px solid #DDD;
 
-    .ride-startDestination{
-        .ride-endDestination{
-            .ride-departureTime{
+    .item-startDestination{
+        .item-endDestination{
+            .item-departureTime{
                 flex: 1;
                 width: 100%;
 
@@ -99,7 +118,7 @@ export default {
         }
     }
 
-    .ride-price{
+    .item-price{
         width: 40px;
     }
 }
