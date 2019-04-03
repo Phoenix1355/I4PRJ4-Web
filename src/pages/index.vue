@@ -3,6 +3,22 @@
         <h1>Turoversigt</h1>
         <div v-if="loggedIn">
             <p>Velkommen, {{ name }}</p>
+            <ul class="list">
+                <li v-for="item in items" class="ride">
+                    <p class="ride-startDestination">
+                        {{ ride.startDestination}}
+                    </p>
+                    <p class="ride-endDestination">
+                        {{ ride.slutDestination}}
+                    </p>
+                    <p class="ride-departureTime">
+                        {{ ride.departureTime.format("D MMM YYYY, HH:mm") }}
+                    </p>
+                    <p class="ride-price">
+                        {{ ride.price }}
+                    </p>
+                </li>
+            </ul>
             <p>
                 <Button
                     :on-click="logout"
@@ -17,6 +33,8 @@
 <script>
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
+
+axios.default.baseURL = "https://smartcabbackend.azurewebsites.net";
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -63,4 +81,27 @@ export default {
         max-width: 600px;
     }
 }
+
+.ride {
+    display: flex;
+    width: 100%;
+    padding: 10px 5px;
+    border-bottom: 1px solid #DDD;
+
+    .ride-startDestination{
+        .ride-endDestination{
+            .ride-departureTime{
+                flex: 1;
+                width: 100%;
+
+                text-align: left;
+            }
+        }
+    }
+
+    .ride-price{
+        width: 40px;
+    }
+}
+
 </style>
