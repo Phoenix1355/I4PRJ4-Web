@@ -61,6 +61,7 @@ import Button from '../components/Button.vue';
  *
  * @vue-computed {String} name - Returns the name of the current state account
  * @vue-event {} logout - The logout method dispatching 'logout' to the store
+ * @vue-event {Array} retrieve - retrieves open rides from backend
  */
 export default {
     middleware: 'auth',
