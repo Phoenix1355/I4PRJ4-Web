@@ -3,13 +3,23 @@
         <h1>Turoversigt</h1>
         <div v-if="loggedIn">
             <p>Velkommen, {{ name }}</p>
+            <p
+                v-if="errorMessage !== ''"
+                class="error"
+            >
+                {{ errorMessage }}
+            </p>
             <ul class="list">
-                <li v-for="item in items" class="item">
+                <li
+                    v-for="item in items"
+                    :key="item.id"
+                    class="item"
+                >
                     <p class="item-startDestination">
-                        {{ item.startDestination}}
+                        {{ item.startDestination }}
                     </p>
                     <p class="item-endDestination">
-                        {{ item.slutDestination}}
+                        {{ item.slutDestination }}
                     </p>
                     <p class="item-departureTime">
                         {{ item.departureTime.format("D MMM YYYY, HH:mm") }}
@@ -38,6 +48,7 @@
 </template>
 
 <script>
+import Moment from 'moment';
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
@@ -57,6 +68,12 @@ export default {
         Button,
         Container,
     },
+    data: () => (
+        {
+            items: [],
+            errorMessage: '',
+        }
+    ),
     computed: {
         name() {
             console.log(this.$store);
@@ -71,18 +88,26 @@ export default {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
         },
-        retrieve() {
-            console.log("Requested rides from api");
 
-            this.$axios.get("/api/Rides/Open")
-                    .then(res => {
-                        this.items = res.data.map(item => ({
-                            startDestination: item.startDestination,
-                            slutDestination: item.slutDestination,
-                            departureTime: new moment(item.departureTime),
-                            price: item.price,
-                        }))
-                    });
+        retrieve() {
+            console.log('Requested rides from api');
+
+            this.$axios.get('/api/Rides/Open')
+                .then((res) => {
+                    console.log('Received response');
+
+                    if (res.data.length === 0) {
+                        this.errorMessage = 'List is empty';
+                        return;
+                    }
+
+                    this.items = res.data.map(item => ({
+                        startDestination: item.startDestination,
+                        slutDestination: item.slutDestination,
+                        departureTime: new Moment(item.departureTime),
+                        price: item.price,
+                    }));
+                });
         },
     },
 };
@@ -121,6 +146,10 @@ export default {
     .item-price{
         width: 40px;
     }
+}
+
+.error {
+    color: red;
 }
 
 </style>
