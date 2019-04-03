@@ -97,7 +97,7 @@ export default {
                 password,
             } = this;
 
-            this.$store.dispatch('auth/login', { email, password });
+            this.$store.dispatch('login', { email, password });
         },
     },
 };
