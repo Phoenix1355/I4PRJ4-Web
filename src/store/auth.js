@@ -52,8 +52,6 @@ export default {
                         customer,
                     } = res.data;
 
-                    console.log(res);
-
                     // Response received, stop waiting
                     commit('Waiting', false);
 
@@ -67,19 +65,13 @@ export default {
                     // Reset error status
                     commit('AuthError', 0);
 
-                    console.log("Redirecting to '/'");
-
                     // Redirect to index
                     this.$router.push('/');
                 })
                 .catch((err) => {
                     commit('Waiting', false);
 
-                    console.log(err);
-
                     commit('AuthError', err.response.status);
-
-                    console.error(err.response);
                 });
         },
         logout({ commit }) {

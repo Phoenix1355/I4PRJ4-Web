@@ -9,7 +9,10 @@
             >
                 {{ errorMessage }}
             </p>
-            <ul class="list">
+            <ul
+                v-if="items.length > 0"
+                class="rides"
+            >
                 <li
                     v-for="item in items"
                     :key="item.id"
@@ -33,12 +36,11 @@
                     </div>
                 </li>
             </ul>
-            <p>
-                <Button
-                    :on-click="retrieve"
-                >
-                    Refresh
-                </Button>
+            <p
+                v-else
+                align="center"
+            >
+                <i>Henter de seneste ture...</i>
             </p>
             <p>
                 <Button
@@ -73,21 +75,34 @@ export default {
         Button,
         Container,
     },
-    data: () => (
-        {
-            items: [],
-            errorMessage: '',
-        }
-    ),
+
+    data: () => ({
+        items: [],
+        errorMessage: '',
+        interval: null,
+    }),
+
     computed: {
         name() {
-            console.log(this.$store);
             return this.$store.state.auth.user.name;
         },
         loggedIn() {
             return this.$store.state.auth.token != null;
         },
     },
+
+    /**
+     * Creation lifecycle hook
+     * @method created
+     */
+    created() {
+        // Retrieve first on creation
+        this.retrieve();
+
+        // Then retrieve every 5 seconds
+        this.interval = setInterval(() => this.retrieve(), 5000);
+    },
+
     methods: {
         logout() {
             this.$store.dispatch('logout')
@@ -95,15 +110,11 @@ export default {
         },
 
         retrieve() {
-            console.log('Requested rides from api');
-
             this.$axios.get('/api/Order/Open', {
                 headers: {
                     Authorization: `Bearer ${this.$store.state.auth.token}`,
                 },
             }).then((res) => {
-                console.log(res);
-
                 if (res.data.length === 0) {
                     this.errorMessage = 'List is empty';
                     return;
@@ -135,11 +146,19 @@ export default {
 <style lang="scss">
 @import '../styles/helpers.scss';
 
-.item {
+.rides {
+    padding: 0;
+    margin: 20px 0;
+
+    list-style: none;
+}
+
+.rides .item {
     display: grid;
-    grid-template-columns: 1fr 1fr 150px 100px;
+    grid-template-columns: 1fr 1fr 150px 120px;
     width: 100%;
-    padding: 10px 5px;
+    padding: 10px 0;
+
     border-bottom: 1px solid #DDD;
 
     .item-group {
