@@ -87,7 +87,7 @@ export default {
                 waiting,
             } = this.$store.state.api;
 
-            return waiting; // Force bool
+            return waiting;
         },
     },
     methods: {

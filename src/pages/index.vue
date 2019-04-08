@@ -15,18 +15,22 @@
                     :key="item.id"
                     class="item"
                 >
-                    <p class="item-startDestination">
-                        {{ item.startDestination }}
-                    </p>
-                    <p class="item-endDestination">
-                        {{ item.slutDestination }}
-                    </p>
-                    <p class="item-departureTime">
-                        {{ item.departureTime.format("D MMM YYYY, HH:mm") }}
-                    </p>
-                    <p class="item-price">
-                        {{ item.price }}
-                    </p>
+                    <div class="item-group">
+                        <small>Start</small>
+                        <p>{{ displayLocation(item.startDestination) }}</p>
+                    </div>
+                    <div class="item-group">
+                        <small>Slut</small>
+                        <p>{{ displayLocation(item.endDestination) }}</p>
+                    </div>
+                    <div class="item-group">
+                        <small>Tidspunkt</small>
+                        <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
+                    </div>
+                    <div class="item-group">
+                        <small>Pris</small>
+                        <p>{{ item.price }} DKK</p>
+                    </div>
                 </li>
             </ul>
             <p>
@@ -93,22 +97,36 @@ export default {
         retrieve() {
             console.log('Requested rides from api');
 
-            this.$axios.get('/api/Rides/Open')
-                .then((res) => {
-                    console.log('Received response');
+            this.$axios.get('/api/Order/Open', {
+                headers: {
+                    Authorization: `Bearer ${this.$store.state.auth.token}`,
+                },
+            }).then((res) => {
+                console.log(res);
 
-                    if (res.data.length === 0) {
-                        this.errorMessage = 'List is empty';
-                        return;
-                    }
+                if (res.data.length === 0) {
+                    this.errorMessage = 'List is empty';
+                    return;
+                }
 
-                    this.items = res.data.map(item => ({
-                        startDestination: item.startDestination,
-                        slutDestination: item.slutDestination,
-                        departureTime: new Moment(item.departureTime),
-                        price: item.price,
-                    }));
-                });
+                this.items = res.data.orders.map(item => ({
+                    startDestination: item.rides[0].startDestination,
+                    endDestination: item.rides[item.rides.length - 1].endDestination,
+                    departureTime: new Moment(item.departureTime),
+                    price: item.price,
+                }));
+            });
+        },
+
+        displayLocation(loc) {
+            const {
+                streetName,
+                streetNumber,
+                postalCode,
+                cityName,
+            } = loc;
+
+            return `${streetName} ${streetNumber}, ${postalCode} ${cityName}`;
         },
     },
 };
@@ -117,35 +135,22 @@ export default {
 <style lang="scss">
 @import '../styles/helpers.scss';
 
-.container {
-    max-width: 400px;
-    width: 100%;
-    margin: 0 auto;
-
-    @include bp(xl) {
-        max-width: 600px;
-    }
-}
-
 .item {
-    display: flex;
+    display: grid;
+    grid-template-columns: 1fr 1fr 150px 100px;
     width: 100%;
     padding: 10px 5px;
     border-bottom: 1px solid #DDD;
 
-    .item-startDestination{
-        .item-endDestination{
-            .item-departureTime{
-                flex: 1;
-                width: 100%;
+    .item-group {
 
-                text-align: left;
-            }
+        small {
+            color: rgba($black, 0.5);
         }
-    }
 
-    .item-price{
-        width: 40px;
+        p {
+            margin: 0;
+        }
     }
 }
 
