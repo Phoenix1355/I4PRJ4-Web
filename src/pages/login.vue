@@ -57,12 +57,12 @@ const errors = {
 /**
  * The page displaying the login form
  *
- * @namespace Pages / Login
- *
  * @vue-data {String} [email=''] - The input email
  * @vue-data {String} [password=''] - The input password
+ *
  * @vue-computed {String} errorMessage - Returns the error message attached to
  * the error status code
+ *
  * @vue-event {String} login - The login method used for logging in
  */
 export default {

@@ -5,15 +5,12 @@ module.exports = {
     ],
     source: {
         include: [
-            'components',
-            'layouts',
-            'middleware',
-            'pages',
-            'store',
+            'src',
         ],
         includePattern: '\\.(vue|js)$',
     },
     opts: {
         encoding: 'utf8',
+        "recurse": true,
     },
 };

@@ -1,59 +1,87 @@
-<template>
-    <Container>
-        <h1>Turoversigt</h1>
-        <div v-if="loggedIn">
-            <p>Velkommen, {{ name }}</p>
-            <p
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/index.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/index.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;Container>
+        &lt;h1>Turoversigt&lt;/h1>
+        &lt;div v-if="loggedIn">
+            &lt;p>Velkommen, {{ name }}&lt;/p>
+            &lt;p
                 v-if="errorMessage !== ''"
                 class="error"
             >
                 {{ errorMessage }}
-            </p>
-            <ul
+            &lt;/p>
+            &lt;ul
                 v-if="items.length > 0"
                 class="rides"
             >
-                <li
+                &lt;li
                     v-for="item in items"
                     :key="item.id"
                     class="item"
                 >
-                    <div class="item-group">
-                        <small>Start</small>
-                        <p>{{ displayLocation(item.startDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Slut</small>
-                        <p>{{ displayLocation(item.endDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Tidspunkt</small>
-                        <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Pris</small>
-                        <p>{{ item.price }} DKK</p>
-                    </div>
-                </li>
-            </ul>
-            <p
+                    &lt;div class="item-group">
+                        &lt;small>Start&lt;/small>
+                        &lt;p>{{ displayLocation(item.startDestination) }}&lt;/p>
+                    &lt;/div>
+                    &lt;div class="item-group">
+                        &lt;small>Slut&lt;/small>
+                        &lt;p>{{ displayLocation(item.endDestination) }}&lt;/p>
+                    &lt;/div>
+                    &lt;div class="item-group">
+                        &lt;small>Tidspunkt&lt;/small>
+                        &lt;p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}&lt;/p>
+                    &lt;/div>
+                    &lt;div class="item-group">
+                        &lt;small>Pris&lt;/small>
+                        &lt;p>{{ item.price }} DKK&lt;/p>
+                    &lt;/div>
+                &lt;/li>
+            &lt;/ul>
+            &lt;p
                 v-else
                 align="center"
             >
-                <i>Henter de seneste ture...</i>
-            </p>
-            <p>
-                <Button
+                &lt;i>Henter de seneste ture...&lt;/i>
+            &lt;/p>
+            &lt;p>
+                &lt;Button
                     :on-click="logout"
                 >
                     Logout
-                </Button>
-            </p>
-        </div>
-    </Container>
-</template>
+                &lt;/Button>
+            &lt;/p>
+        &lt;/div>
+    &lt;/Container>
+&lt;/template>
 
-<script>
+&lt;script>
 import Moment from 'moment';
 
 import { displayLocation } from '../utils';
@@ -112,9 +140,6 @@ export default {
     },
 
     methods: {
-        // Import displayLocation method for view use
-        displayLocation,
-
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
@@ -139,11 +164,12 @@ export default {
                 }));
             });
         },
+        displayLocation,
     },
 };
-</script>
+&lt;/script>
 
-<style lang="scss">
+&lt;style lang="scss">
 @import '../styles/helpers.scss';
 
 .rides {
@@ -177,4 +203,27 @@ export default {
     color: red;
 }
 
-</style>
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Components_Button.html">Components/Button</a></li><li><a href="module-Components_Container.html">Components/Container</a></li><li><a href="module-index.html">index</a></li><li><a href="module-login.html">login</a></li></ul><h3>Global</h3><ul><li><a href="global.html#displayLocation">displayLocation</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Tue Apr 09 2019 02:09:11 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
