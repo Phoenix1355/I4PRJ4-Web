@@ -37,6 +37,7 @@
     "eslint-plugin-vue": "^5.2.2",
     "eslint-plugin-vue-a11y": "0.0.28",
     "jest": "^24.5.0",
+    "jsdoc-vuejs": "^2.4.3",
     "node-sass": "^4.11.0",
     "nodemon": "^1.18.9",
     "sass-loader": "^7.1.0",

@@ -8,6 +8,13 @@
 </template>
 
 <script>
+/**
+ * This is an awesome button description
+ *
+ * @module Components/Button
+ *
+ * @vue-prop {Function} onClick - The binding onclick event prop
+ */
 export default {
     props: {
         onClick: {
