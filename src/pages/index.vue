@@ -155,11 +155,15 @@ export default {
 
 .rides .item {
     display: grid;
-    grid-template-columns: 1fr 1fr 150px 120px;
+    grid-template-columns: 1fr 1fr 170px 120px;
     width: 100%;
     padding: 10px 0;
 
     border-bottom: 1px solid #DDD;
+
+    @include bp(hg) {
+        grid-template-columns: 1fr 1fr 200px 120px;
+    }
 
     .item-group {
 
