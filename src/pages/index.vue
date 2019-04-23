@@ -134,7 +134,7 @@ export default {
                 this.items = res.data.orders.map(item => ({
                     startDestination: item.rides[0].startDestination,
                     endDestination: item.rides[item.rides.length - 1].endDestination,
-                    departureTime: new Moment(item.departureTime),
+                    departureTime: new Moment(item.rides[0].departureTime),
                     price: item.price,
                 }));
             });
