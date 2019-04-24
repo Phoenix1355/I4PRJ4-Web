@@ -56,6 +56,7 @@
 <script>
 import Moment from 'moment';
 
+import { fetchOpenRides } from '../api';
 import { displayLocation } from '../utils';
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
@@ -121,23 +122,21 @@ export default {
         },
 
         retrieve() {
-            this.$axios.get('/api/Order/Open', {
-                headers: {
-                    Authorization: `Bearer ${this.$store.state.auth.token}`,
-                },
-            }).then((res) => {
-                if (res.data.length === 0) {
-                    this.errorMessage = 'List is empty';
-                    return;
-                }
+            return fetchOpenRides(this.$store.state.auth.token)
+                .then((res) => {
+                    console.log(res);
+                    if (res.data.length === 0) {
+                        this.errorMessage = 'List is empty';
+                        return;
+                    }
 
-                this.items = res.data.orders.map(item => ({
-                    startDestination: item.rides[0].startDestination,
-                    endDestination: item.rides[item.rides.length - 1].endDestination,
-                    departureTime: new Moment(item.rides[0].departureTime),
-                    price: item.price,
-                }));
-            });
+                    this.items = res.data.orders.map(item => ({
+                        startDestination: item.rides[0].startDestination,
+                        endDestination: item.rides[item.rides.length - 1].endDestination,
+                        departureTime: new Moment(item.rides[0].departureTime),
+                        price: item.price,
+                    }));
+                });
         },
     },
 };
