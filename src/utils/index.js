@@ -15,6 +15,3 @@ export const displayLocation = ({
     postalCode,
     cityName,
 }) => `${streetName} ${streetNumber}, ${postalCode} ${cityName}`;
-
-
-export const temp = () => {};
