@@ -2,6 +2,8 @@
 
 import { AuthToken, AuthUser, AuthError } from './mutations';
 
+jest.mock('js-cookie');
+
 describe('mutations', () => {
     it('AuthToken_SimpleState_StateWasSet', async () => {
         // The fake state
