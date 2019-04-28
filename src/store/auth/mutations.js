@@ -1,18 +1,7 @@
 // auth/mutations.js
 
-import jwt from 'jsonwebtoken';
-
 export function AuthToken(state, token) {
     state.token = token;
-
-    if (token != null) {
-        const decoded = jwt.decode(token);
-
-        this.commit('AuthUser', {
-            name: 'Temp',
-            email: decoded.sub,
-        });
-    }
 }
 
 export function AuthUser(state, user) {

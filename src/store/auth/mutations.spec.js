@@ -1,9 +1,22 @@
 // auth.spec.js
 
-import { AuthUser, AuthError } from './mutations';
+import { AuthToken, AuthUser, AuthError } from './mutations';
 
 describe('mutations', () => {
-    it('AUTH_USER', async () => {
+    it('AuthToken_SimpleState_StateWasSet', async () => {
+        // The fake state
+        const state = {
+            token: '',
+        };
+
+        const token = 'A valid token';
+
+        await AuthToken(state, token);
+
+        expect(state.token).toBe(token);
+    });
+
+    it('AuthUser_SimpleState_StateWasSet', async () => {
         // The mock state
         const state = {
             user: {
@@ -17,18 +30,18 @@ describe('mutations', () => {
             email: 'john@example.com',
         };
 
-        AuthUser(state, user);
+        await AuthUser(state, user);
 
         expect(state.user.name).toBe('John');
     });
 
-    it('AUTH_ERROR', async () => {
+    it('AuthError_SimpleState_StateWasSet', async () => {
         // The fake state
         const state = {
             error: '',
         };
 
-        AuthError(state, 'New error');
+        await AuthError(state, 'New error');
 
         expect(state.error).toBe('New error');
     });
