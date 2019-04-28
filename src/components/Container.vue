@@ -5,6 +5,11 @@
 </template>
 
 <script>
+/**
+ * A container module
+ *
+ * @module Components/Container
+ */
 export default {
 
 };

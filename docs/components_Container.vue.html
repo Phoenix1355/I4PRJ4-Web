@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: components/Container.vue</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,49 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: components/Container.vue</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template lang="html">
+    &lt;div class="container">
+        &lt;slot />
+    &lt;/div>
+&lt;/template>
 
+&lt;script>
+/**
+ * A container module
+ *
+ * @module Components/Container
+ */
+export default {
 
-    <h3> </h3>
+};
+&lt;/script>
 
+&lt;style lang="scss">
+@import '../styles/helpers.scss';
 
+.container {
+    max-width: $site-width;
+    width: 100%;
+    padding: 0 40px;
+    margin: 0 auto;
 
-
-
-
-
-
-
-
-    
-
-
-
-
-
+    @include bp(hg) {
+        padding: 0;
+    }
+}
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
 
 
 

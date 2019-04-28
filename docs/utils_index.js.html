@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Home</title>
+    <title>JSDoc: Source: utils/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,32 +17,38 @@
 
 <div id="main">
 
-    <h1 class="page-title">Home</h1>
+    <h1 class="page-title">Source: utils/index.js</h1>
 
     
 
 
 
     
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>/**
+ * Utilities
+ */
+
+/**
+ * Converts a google location into a formatted string
+ *
+ * @method displayLocation
+ * @param  {Object}        args   The location
+ * @return {String}               The formatted location string
+ */
+export const displayLocation = ({
+    streetName,
+    streetNumber,
+    postalCode,
+    cityName,
+}) => `${streetName} ${streetNumber}, ${postalCode} ${cityName}`;
 
 
-    <h3> </h3>
-
-
-
-
-
-
-
-
-
-
-    
-
-
-
-
-
+export const temp = () => {};
+</code></pre>
+        </article>
+    </section>
 
 
 

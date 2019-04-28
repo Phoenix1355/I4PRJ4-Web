@@ -18,7 +18,8 @@
         "indent": ["error", 4],
         "comma-dangle": ["error", "always-multiline"],
         "no-param-reassign": ["error", { "props": false }],
-        "vue/html-indent": ["error", 4]
+        "vue/html-indent": ["error", 4],
+        "linebreak-style": 0
     },
     "plugins": [
         "vue",
