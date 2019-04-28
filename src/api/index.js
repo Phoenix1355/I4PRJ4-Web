@@ -9,6 +9,10 @@ export function attemptLogin({ email, password }) {
 }
 
 export function fetchOpenRides(token) {
+    if (token === null || token === '') {
+        return false;
+    }
+
     return axios.get('/api/Order/Open', {
         headers: {
             Authorization: `Bearer ${token}`,

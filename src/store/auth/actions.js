@@ -8,6 +8,7 @@ export function login({ commit }, data) {
 
     return attemptLogin(data) // should be api/TaxiCompany/Login
         .then((res) => {
+            console.log('res: ', res);
             const {
                 token,
                 taxiCompany,
@@ -31,6 +32,8 @@ export function login({ commit }, data) {
         })
         .catch((err) => {
             commit('Waiting', false);
+
+            console.log("err:", err);
 
             commit('AuthError', err.response.status);
         });
