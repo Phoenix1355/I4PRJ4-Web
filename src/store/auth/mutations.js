@@ -10,7 +10,9 @@ export function AuthToken(state, token) {
     }
 
     // Set cookie for saving the session
-    if (!Cookie.get('token')) Cookie.set('token', token);
+    if (!Cookie.get('token')) {
+        Cookie.set('token', token);
+    }
 }
 
 export function AuthUser(state, user) {
