@@ -98,6 +98,9 @@ export default {
             } = this;
 
             this.$store.dispatch('login', { email, password });
+
+            // Redirect to index
+            this.$router.push('/');
         },
     },
 };

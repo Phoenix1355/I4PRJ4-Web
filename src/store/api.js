@@ -8,7 +8,7 @@ export default {
     },
     mutations: {
         Waiting(state, waiting) {
-            state.waiting = waiting; // Forcing boolean
+            state.waiting = waiting;
         },
     },
     actions: {

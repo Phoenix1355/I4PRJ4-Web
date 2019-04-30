@@ -1,17 +1,17 @@
 // auth/mutations.js
 
-import jwt from 'jsonwebtoken';
+import Cookie from 'js-cookie';
 
 export function AuthToken(state, token) {
     state.token = token;
 
-    if (token != null) {
-        const decoded = jwt.decode(token);
+    if (token == null) {
+        return Cookie.remove('token');
+    }
 
-        this.commit('AuthUser', {
-            name: 'Temp',
-            email: decoded.sub,
-        });
+    // Set cookie for saving the session
+    if (!Cookie.get('token')) {
+        Cookie.set('token', token);
     }
 }
 
