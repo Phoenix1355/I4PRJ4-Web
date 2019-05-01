@@ -17,6 +17,7 @@
                     v-for="item in items"
                     :key="item.id"
                     class="item"
+                    @click="setRide(item.id)"
                 >
                     <div class="item-group">
                         <small>Start</small>
@@ -47,13 +48,6 @@
                     :on-click="logout"
                 >
                     Logout
-                </Button>
-            </p>
-            <p>
-                <Button
-                    :on-click="accept"
-                >
-                    Accepter
                 </Button>
             </p>
         </div>
@@ -95,6 +89,7 @@ export default {
         items: [],
         errorMessage: '',
         interval: null,
+        currentRides: null,
     }),
 
     computed: {
@@ -131,26 +126,30 @@ export default {
                 .then(() => this.$router.push('/login'));
         },
 
-        accept() {
-            acceptRide(this.$store.state.auth.token, this.items[1]);
-        },
-
         retrieve() {
             return fetchOpenRides(this.$store.state.auth.token)
                 .then((res) => {
-                    console.log(res);
                     if (res.data.length === 0) {
                         this.errorMessage = 'List is empty';
                         return;
                     }
 
                     this.items = res.data.orders.map(item => ({
+                        id: item.id,
                         startDestination: item.rides[0].startDestination,
                         endDestination: item.rides[item.rides.length - 1].endDestination,
                         departureTime: new Moment(item.rides[0].departureTime),
                         price: item.price,
                     }));
                 });
+        },
+
+        setRide(id) {
+            console.log(id);
+        },
+
+        accpetRide(id) {
+            acceptRide(this.$store.state.auth.token, id);
         },
     },
 };
@@ -170,12 +169,20 @@ export default {
     display: grid;
     grid-template-columns: 1fr 1fr 170px 120px;
     width: 100%;
-    padding: 10px 0;
+    padding: 10px 20px;
 
     border-bottom: 1px solid #DDD;
 
+    cursor: pointer;
+    transition: $speed-short $animation;
+
     @include bp(hg) {
         grid-template-columns: 1fr 1fr 200px 120px;
+    }
+
+    &:hover {
+        box-shadow: $shadow-medium;
+        border-color: transparent;
     }
 
     .item-group {
