@@ -68,4 +68,12 @@ describe('Testing API Calls', () => {
 
         expect(await acceptRide(fakeToken, fakeId)).toBe(false);
     });
+
+    it('AcceptRide_NonValidTokenNonValidId_ReturnsFalse', async () => {
+        const fakeToken = null;
+
+        const fakeId = -1;
+
+        expect(await acceptRide(fakeToken, fakeId)).toBe(false);
+    });
 });
