@@ -148,7 +148,7 @@ export default {
             console.log(id);
         },
 
-        accpetRide(id) {
+        acceptRide(id) {
             acceptRide(this.$store.state.auth.token, id);
         },
     },
