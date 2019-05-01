@@ -49,6 +49,13 @@
                     Logout
                 </Button>
             </p>
+            <p>
+                <Button
+                    :on-click="accept"
+                >
+                    Accepter
+                </Button>
+            </p>
         </div>
     </Container>
 </template>
@@ -56,7 +63,7 @@
 <script>
 import Moment from 'moment';
 
-import { fetchOpenRides } from '../api';
+import { fetchOpenRides, acceptRide } from '../api';
 import { displayLocation } from '../utils';
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
@@ -119,6 +126,10 @@ export default {
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
+        },
+
+        accept() {
+            acceptRide(this.$store.state.auth.token, this.items[1]);
         },
 
         retrieve() {

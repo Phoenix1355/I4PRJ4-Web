@@ -19,3 +19,16 @@ export function fetchOpenRides(token) {
         },
     });
 }
+
+export function acceptRide(token, order) {
+    if (token === null || token === '') {
+        return false;
+    }
+
+    return axios.put(`/api/Order/${order.id}/Accept`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+        order,
+    });
+}
