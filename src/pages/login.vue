@@ -57,6 +57,8 @@ const errors = {
 /**
  * The page displaying the login form
  *
+ * @module Pages/Login
+ *
  * @vue-data {String} [email=''] - The input email
  * @vue-data {String} [password=''] - The input password
  *

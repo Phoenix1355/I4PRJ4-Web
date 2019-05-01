@@ -72,6 +72,8 @@ import Button from '../components/Button.vue';
  * The main page displaying the rides. The client must be logged in to see this
  * page, because of the 'auth' middleware.
  *
+ * @module Pages/Index
+ *
  * @vue-data {Array} items - The list of retrieved items
  * @vue-data {String} errorMessage - The latest error message
  * @vue-data {Function} interval - THe interval loop used to call retrieve event
@@ -97,7 +99,8 @@ export default {
 
     computed: {
         name() {
-            return this.$store.state.auth.user.name;
+            // return this.$store.state.auth.user.name || 'temp';
+            return 'temp';
         },
         loggedIn() {
             return this.$store.state.auth.token != null;
