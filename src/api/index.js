@@ -25,9 +25,14 @@ export function acceptRide(token, id) {
         return false;
     }
 
+    if (id < 0) {
+        return false;
+    }
+
     return axios.put(`/api/Order/${id}/Accept`, {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    });
+    },
+    id);
 }
