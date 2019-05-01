@@ -72,7 +72,7 @@ module.exports = {
         */
         extend(config, ctx) {
             if (ctx.isClient) {
-                config.externals = externalModules();
+                // config.externals = externalModules();
             }
         },
     },

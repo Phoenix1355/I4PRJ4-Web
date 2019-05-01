@@ -2,6 +2,14 @@
 
 import { attemptLogin } from '../../api';
 
+/**
+ * Action for logging in with a token and taxicompany data
+ *
+ * @method login
+ * @param  {Object} context The vuex context
+ * @param  {Object} data  The data to handle
+ * @return {void}
+ */
 export function login({ commit }, data) {
     commit('Waiting', true);
 
@@ -29,6 +37,15 @@ export function login({ commit }, data) {
         });
 }
 
+/**
+ * Action for logging the user out.
+ *
+ * Removes the active cookie and reset the token.
+ *
+ * @method logout
+ * @param  {Object} context The vuex context
+ * @return {void}
+ */
 export function logout({ commit }) {
     commit('AuthToken', null);
 
