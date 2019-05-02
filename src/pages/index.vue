@@ -2,15 +2,19 @@
     <Container>
         <p>SmartCab</p>
         <div class="dropdown">
-            <button class="dropbtn">{{ name }}</button>
+            <button class="dropbtn">
+                {{ name }}
+            </button>
             <div class="dropdown-content">
-                <a href="#">Rediger konto</a>
+                <a href="">Rediger konto</a>
                 <a
-                    :href="logout"
+                    href=""
+                    @click="logout()"
                 >
                     Log ud
                 </a>
             </div>
+            <small> {{ email }} </small>
         </div>
         <h1>Turoversigt</h1>
         <div v-if="loggedIn">
@@ -53,13 +57,6 @@
             >
                 <i>Henter de seneste ture...</i>
             </p>
-            <p>
-                <Button
-                    :on-click="logout"
-                >
-                    Logout
-                </Button>
-            </p>
         </div>
     </Container>
 </template>
@@ -70,7 +67,6 @@ import Moment from 'moment';
 import { fetchOpenRides } from '../api';
 import { displayLocation } from '../utils';
 import Container from '../components/Container.vue';
-import Button from '../components/Button.vue';
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -91,7 +87,6 @@ import Button from '../components/Button.vue';
 export default {
     middleware: 'auth',
     components: {
-        Button,
         Container,
     },
 
