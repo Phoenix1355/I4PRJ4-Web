@@ -1,20 +1,22 @@
 <template>
     <Container>
-        <p>SmartCab</p>
-        <div class="dropdown">
-            <button class="dropbtn">
-                {{ name }}
-            </button>
-            <div class="dropdown-content">
-                <a href="">Rediger konto</a>
-                <a
-                    href=""
-                    @click="logout()"
-                >
-                    Log ud
-                </a>
+        <div class="header">
+            <p class="smartCab">SmartCab</p>
+            <div class="dropdown">
+                <button class="dropbtn">
+                    {{ name }}
+                </button>
+                <div class="dropdown-content">
+                    <a href="">Rediger konto</a>
+                    <a
+                        href=""
+                        @click="logout()"
+                    >
+                        Log ud
+                    </a>
+                </div>
+                <small> {{ email }} </small>
             </div>
-            <small> {{ email }} </small>
         </div>
         <h1>Turoversigt</h1>
         <div v-if="loggedIn">
@@ -164,6 +166,10 @@ export default {
 <style lang="scss">
 @import '../styles/helpers.scss';
 
+.content {
+    background-color: #F2F1F1;
+}
+
 .rides {
     padding: 0;
     margin: 20px 0;
@@ -207,39 +213,52 @@ export default {
     color: red;
 }
 
-.dropbtn {
-  background-color: #4CAF50;
-  color: white;
-  padding: 16px;
-  font-size: 16px;
-  border: none;
+.header {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    grid-gap: 10px;
+    grid-template-areas: "a b c d e f g h";
+    border-bottom: 1px solid #DDD;
+    .smartCab {
+        grid-area: a;
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+    .dropdown {
+        grid-area: h;
+    }
 }
 
-.dropdown {
-  position: relative;
-  display: inline-block;
+.dropbtn {
+    background-color: White;
+    color: Black;
+    padding: 16px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
 }
 
 .dropdown-content {
-  display: none;
-  position: absolute;
-  background-color: #f1f1f1;
-  min-width: 160px;
-  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-  z-index: 1;
+    display: none;
+    position: absolute;
+    background-color: #f1f1f1;
+    min-width: 160px;
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+    z-index: 1;
 }
 
 .dropdown-content a {
-  color: black;
-  padding: 12px 16px;
-  text-decoration: none;
-  display: block;
+    color: black;
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
 }
 
 .dropdown-content a:hover {background-color: #ddd;}
 
 .dropdown:hover .dropdown-content {display: block;}
 
-.dropdown:hover .dropbtn {background-color: #3e8e41;}
+.dropdown:hover .dropbtn {background-color: #ddd;}
 
 </style>
