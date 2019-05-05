@@ -29,6 +29,9 @@ export function login({ commit }, data) {
 
             // Reset error status
             commit('AuthError', 0);
+
+            // Redirect to index
+            this.$router.push('/');
         })
         .catch((err) => {
             commit('Waiting', false);
