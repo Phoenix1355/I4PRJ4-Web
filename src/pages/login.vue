@@ -121,9 +121,6 @@ export default {
 </script>
 
 <style media="screen" lang="scss">
-@import '../styles/helpers.scss';
-@import '../styles/typography.scss';
-
 .site-content {
     padding: 60px 0;
 }

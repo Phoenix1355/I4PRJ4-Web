@@ -16,8 +16,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/helpers.scss';
-
 .container {
     max-width: $site-width;
     width: 100%;

@@ -67,9 +67,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/helpers.scss';
-@import '../styles/typography.scss';
-
 .dropdown {
     .dropdown-toggle {
         @extend .barley;
@@ -97,7 +94,8 @@ export default {
 
         background-color: $white;
         box-shadow: $shadow-medium;
-        border: 1px solid #DDD;
+        border: 1px solid $border-color;
+        border-radius: 4px;
 
         .dropdown-head,
         .dropdown-item {
@@ -118,7 +116,7 @@ export default {
             height: 0;
             margin: 8px 0;
 
-            border-top: 1px solid #e1e4e8;
+            border-top: 1px solid $border-color;
         }
 
         .dropdown-item {

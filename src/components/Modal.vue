@@ -48,9 +48,6 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-@import '../styles/helpers.scss';
-@import '../styles/typography.scss';
-
 .modal {
     position: fixed;
     top: 0;

@@ -25,11 +25,11 @@ module.exports = {
     loading: { color: '#fff' },
 
     /*
-    ** Global CSS
+    ** Global CSS/SCSS
     */
     css: [
         'normalize.css/normalize.css',
-        '@/styles/main.scss',
+        '@/assets/styles/main.scss',
     ],
 
     /*
@@ -43,7 +43,14 @@ module.exports = {
     */
     modules: [
         '@nuxtjs/axios',
+        '@nuxtjs/style-resources',
     ],
+
+    styleResources: {
+        scss: [
+            'assets/styles/main.scss',
+        ],
+    },
 
     /*
     ** Nuxt.js axios

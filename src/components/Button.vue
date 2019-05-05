@@ -27,9 +27,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/helpers.scss';
-@import '../styles/typography.scss';
-
 .button {
     @extend .barley;
 

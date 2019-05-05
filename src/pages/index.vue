@@ -165,8 +165,6 @@ export default {
 </script>
 
 <style lang="scss">
-@import '../styles/helpers.scss';
-
 .content {
     background-color: #F2F1F1;
 }
