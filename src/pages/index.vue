@@ -1,49 +1,51 @@
 <template>
-    <Container>
-        <h1>Turoversigt</h1>
-        <div v-if="loggedIn">
-            <p
-                v-if="errorMessage !== ''"
-                class="error"
-            >
-                {{ errorMessage }}
-            </p>
-            <ul
-                v-else-if="items.length > 0"
-                class="rides"
-            >
-                <li
-                    v-for="item in items"
-                    :key="item.id"
-                    class="item"
-                    @click="setRide(item.id)"
+    <Page>
+        <Container>
+            <h1>Turoversigt</h1>
+            <div v-if="loggedIn">
+                <p
+                    v-if="errorMessage !== ''"
+                    class="error"
                 >
-                    <div class="item-group">
-                        <small>Start</small>
-                        <p>{{ displayLocation(item.startDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Slut</small>
-                        <p>{{ displayLocation(item.endDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Tidspunkt</small>
-                        <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Pris</small>
-                        <p>{{ item.price }} DKK</p>
-                    </div>
-                </li>
-            </ul>
-            <p
-                v-else
-                align="center"
-            >
-                <i>Henter de seneste ture...</i>
-            </p>
-        </div>
-    </Container>
+                    {{ errorMessage }}
+                </p>
+                <ul
+                    v-else-if="items.length > 0"
+                    class="rides"
+                >
+                    <li
+                        v-for="item in items"
+                        :key="item.id"
+                        class="item"
+                        @click="setRide(item.id)"
+                    >
+                        <div class="item-group">
+                            <small>Start</small>
+                            <p>{{ displayLocation(item.startDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Slut</small>
+                            <p>{{ displayLocation(item.endDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Tidspunkt</small>
+                            <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Pris</small>
+                            <p>{{ item.price }} DKK</p>
+                        </div>
+                    </li>
+                </ul>
+                <p
+                    v-else
+                    align="center"
+                >
+                    <i>Henter de seneste ture...</i>
+                </p>
+            </div>
+        </Container>
+    </Page>
 </template>
 
 <script>
@@ -52,6 +54,7 @@ import Moment from 'moment';
 import { fetchOpenRides, acceptRide } from '../api';
 import { displayLocation } from '../utils';
 
+import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 
 /**
@@ -72,6 +75,7 @@ import Container from '../components/Container.vue';
  */
 export default {
     components: {
+        Page,
         Container,
     },
 
