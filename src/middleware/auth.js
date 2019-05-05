@@ -14,12 +14,12 @@ export default async ({
     const { path } = route;
     const authPaths = ['/login'];
 
-    if (localStorage.getItem('auth') && localStorage.getItem('auth') !== null) {
+    if (localStorage.getItem('token')) {
         // A token is saved
-        if (!store.state.auth.token || store.state.auth.token !== localStorage.getItem('token')) {
+        if (!store.state.auth.token) {
             // Token isn't set in the store
             await store.commit('AuthToken', localStorage.getItem('token'));
-            await store.commit('AuthUser', localStorage.getItem('user'));
+            await store.commit('AuthUser', JSON.parse(localStorage.getItem('user')));
         }
     }
 

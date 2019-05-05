@@ -37,8 +37,7 @@ export default {
     align-items: center;
     justify-content: center;
     height: 40px;
-    width: 120px;
-    padding: 0;
+    padding: 0 30px;
 
     text-align: center;
 

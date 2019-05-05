@@ -9,24 +9,51 @@
                 id="dropdown"
                 class="navigation"
             >
-                <Dropdown />
+                <Dropdown :text="name">
+                    <DropdownHead>
+                        Logget ind med:
+                        <strong>{{ email }}</strong>
+                    </DropdownHead>
+                    <DropdownDivider />
+                    <DropdownItem href="#">
+                        Rediger konto
+                    </DropdownItem>
+                    <DropdownItem @click="logout()">
+                        Log ud
+                    </DropdownItem>
+                </Dropdown>
             </nav>
         </Container>
     </header>
 </template>
 
 <script>
-import Dropdown from './Dropdown.vue';
+import Dropdown, { DropdownHead, DropdownItem, DropdownDivider } from './Dropdown.vue';
 import Container from './Container.vue';
 
 export default {
     components: {
         Container,
         Dropdown,
+        DropdownHead,
+        DropdownItem,
+        DropdownDivider,
     },
     computed: {
         loggedIn() {
             return this.$store.state.auth.token != null;
+        },
+        name() {
+            return this.$store.state.auth.user.name || 'undefined';
+        },
+        email() {
+            return this.$store.state.auth.user.email || 'undefined';
+        },
+    },
+    methods: {
+        logout() {
+            this.$store.dispatch('logout')
+                .then(() => this.$router.push('/login'));
         },
     },
 };
