@@ -74,7 +74,6 @@ import Container from '../components/Container.vue';
  * @vue-event {Array} retrieve - retrieves open rides from backend
  */
 export default {
-    middleware: 'auth',
     components: {
         Page,
         Container,

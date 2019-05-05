@@ -6,61 +6,29 @@
  * revalidate cookies if any is set.
  */
 
-import Cookie from 'js-cookie';
-
-export default ({
+export default async ({
     store,
+    route,
     redirect,
 }) => {
-    // const authPaths = ['/login', '/signup'];
-    if (Cookie.get('token')) {
-        // User was authenticated in the previous session.
-        store.commit('AuthToken', Cookie.get('token'));
+    const { path } = route;
+    const authPaths = ['/login'];
+
+    if (localStorage.getItem('token') && localStorage.getItem('token') !== null) {
+        // A token is saved
+        if (!store.state.auth.token || store.state.auth.token !== localStorage.getItem('token')) {
+            // Token isn't set in the store
+            await store.commit('AuthToken', localStorage.getItem('token'));
+        }
     }
 
-    if (!store.state.auth.token) {
-        // Not authenticated
-        console.log("Redirecting to '/login'");
+    if (!store.state.auth.token && authPaths.indexOf(path) === -1) {
+        // If token isn't set (not logged in) and user isn't on login
+        // screen, then redirect the user to login.
         redirect('/login');
+    } else if (store.state.auth.token && authPaths.indexOf(path) >= 0) {
+        // If token is set (logged in) and the user is on login screen,
+        // then redirect the user to home.
+        redirect('/');
     }
 };
-
-/*
-import Cookie from 'js-cookie';
-
-export default ({
-    store,
-    redirect,
-}) => {
-    const { path } = store.$router.currentRoute;
-    const authPaths = ['/login', '/signup'];
-
-    if (Cookie.get('token')) {
-        // User was authenticated in the previous session.
-        store.commit('AuthUser', 'yeeet');
-    }
-
-    if (!store.state.auth) {
-        console.log('redirecting');
-        return redirect('/login');
-    }
-
-    console.log(authPaths, path, authPaths.indexOf(path));
-
-    if (store.state.auth) {
-        // User is logged in
-        if (authPaths.indexOf(path) != -1) {
-            // User is on authentication path
-            console.log('Redirecting to /');
-            return redirect('/');
-        }
-    } else {
-        if (authPaths.indexOf(path) == -1) {
-            // User is not trying to log in/sign up
-            console.log('Redirecting to /login');
-            return redirect('/login');
-        }
-    }
-};
-
-*/

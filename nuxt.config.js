@@ -1,9 +1,4 @@
-const fs = require('fs');
 const pkg = require('./package');
-
-const externalModules = fs.readdirSync('node_modules')
-    .filter(x => ['.bin'].indexOf(x) === -1)
-    .reduce((acc, cur) => Object.assign(acc, { [cur]: `commonjs ${cur}` }), {});
 
 module.exports = {
     mode: 'spa',
@@ -62,6 +57,7 @@ module.exports = {
     */
     router: {
         // base: '/prj4-web-test/',
+        middleware: ['auth'],
     },
 
     /*
