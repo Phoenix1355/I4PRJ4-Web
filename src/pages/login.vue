@@ -1,54 +1,51 @@
 <template>
-    <Page>
-        <Container>
-            <h1>Login</h1>
-            <p>Velkommen tilbage, venligst log ind på din konto.</p>
-            <p
-                v-if="errorMessage !== ''"
-                class="error"
-            >
-                {{ errorMessage }}
-            </p>
-            <div class="login-form">
-                <form @submit.prevent="login">
-                    <div class="input-group">
-                        <label for="email">
-                            <small>Email adresse</small>
-                            <input
-                                id="email"
-                                v-model="email"
-                                required
-                                type="email"
-                                name="email"
-                                placeholder="Email"
-                            >
-                        </label>
-                    </div>
-                    <div class="input-group">
-                        <label for="password">
-                            <small>Kodeord</small>
-                            <input
-                                id="password"
-                                v-model="password"
-                                required
-                                type="password"
-                                name="password"
-                                placeholder="Kodeord"
-                            >
-                        </label>
-                    </div>
-                    <Button type="submit">
-                        <span v-if="!waiting">Log ind</span>
-                        <span v-else>Loading</span>
-                    </Button>
-                </form>
-            </div>
-        </Container>
-    </Page>
+    <Container>
+        <h1>Login</h1>
+        <p>Velkommen tilbage, venligst log ind på din konto.</p>
+        <p
+            v-if="errorMessage !== ''"
+            class="error"
+        >
+            {{ errorMessage }}
+        </p>
+        <div class="login-form">
+            <form @submit.prevent="login">
+                <div class="input-group">
+                    <label for="email">
+                        <small>Email adresse</small>
+                        <input
+                            id="email"
+                            v-model="email"
+                            required
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                        >
+                    </label>
+                </div>
+                <div class="input-group">
+                    <label for="password">
+                        <small>Kodeord</small>
+                        <input
+                            id="password"
+                            v-model="password"
+                            required
+                            type="password"
+                            name="password"
+                            placeholder="Kodeord"
+                        >
+                    </label>
+                </div>
+                <Button type="submit">
+                    <span v-if="!waiting">Log ind</span>
+                    <span v-else>Loading</span>
+                </Button>
+            </form>
+        </div>
+    </Container>
 </template>
 
 <script type="text/javascript">
-import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 import Button from '../components/Button.vue';
 
@@ -72,13 +69,22 @@ const errors = {
  */
 export default {
     components: {
-        Page,
         Button,
         Container,
     },
     data: () => ({
         email: '',
         password: '',
+    }),
+    head: () => ({
+        title: 'Log ind',
+        meta: [
+            {
+                hid: 'description',
+                name: 'description',
+                content: 'Log ind på SmartCab web-applikation',
+            },
+        ],
     }),
     computed: {
         errorMessage() {
