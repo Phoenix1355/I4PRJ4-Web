@@ -1,57 +1,51 @@
 <template>
-    <Container>
-        <h1>Turoversigt</h1>
-        <div v-if="loggedIn">
-            <p>Velkommen, {{ name }}</p>
-            <p
-                v-if="errorMessage !== ''"
-                class="error"
-            >
-                {{ errorMessage }}
-            </p>
-            <ul
-                v-if="items.length > 0"
-                class="rides"
-            >
-                <li
-                    v-for="item in items"
-                    :key="item.id"
-                    class="item"
-                    @click="setRide(item.id)"
+    <Page>
+        <Container>
+            <h1>Turoversigt</h1>
+            <div v-if="loggedIn">
+                <p
+                    v-if="errorMessage !== ''"
+                    class="error"
                 >
-                    <div class="item-group">
-                        <small>Start</small>
-                        <p>{{ displayLocation(item.startDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Slut</small>
-                        <p>{{ displayLocation(item.endDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Tidspunkt</small>
-                        <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Pris</small>
-                        <p>{{ item.price }} DKK</p>
-                    </div>
-                </li>
-            </ul>
-            <p
-                v-else
-                align="center"
-            >
-                <i>Henter de seneste ture...</i>
-            </p>
-            <p>
-                <Button
-                    :on-click="logout"
+                    {{ errorMessage }}
+                </p>
+                <ul
+                    v-else-if="items.length > 0"
+                    class="rides"
                 >
-                    Logout
-                </Button>
-            </p>
-        </div>
-    </Container>
+                    <li
+                        v-for="item in items"
+                        :key="item.id"
+                        class="item"
+                        @click="setRide(item.id)"
+                    >
+                        <div class="item-group">
+                            <small>Start</small>
+                            <p>{{ displayLocation(item.startDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Slut</small>
+                            <p>{{ displayLocation(item.endDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Tidspunkt</small>
+                            <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Pris</small>
+                            <p>{{ item.price }} DKK</p>
+                        </div>
+                    </li>
+                </ul>
+                <p
+                    v-else
+                    align="center"
+                >
+                    <i>Henter de seneste ture...</i>
+                </p>
+            </div>
+        </Container>
+    </Page>
 </template>
 
 <script>
@@ -59,8 +53,9 @@ import Moment from 'moment';
 
 import { fetchOpenRides, acceptRide } from '../api';
 import { displayLocation } from '../utils';
+
+import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
-import Button from '../components/Button.vue';
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -79,9 +74,8 @@ import Button from '../components/Button.vue';
  * @vue-event {Array} retrieve - retrieves open rides from backend
  */
 export default {
-    middleware: 'auth',
     components: {
-        Button,
+        Page,
         Container,
     },
 
@@ -90,6 +84,17 @@ export default {
         errorMessage: '',
         interval: null,
         currentRides: null,
+    }),
+
+    head: () => ({
+        title: 'Oversigt',
+        meta: [
+            {
+                hid: 'description',
+                name: 'description',
+                content: 'Oversigt over ture',
+            },
+        ],
     }),
 
     computed: {
@@ -110,27 +115,25 @@ export default {
      * @memberOf Pages/Index
      */
     created() {
-        // Retrieve first on creation
-        this.retrieve();
+        console.log('Retrieving latest open rides');
 
-        // Then retrieve every 5 seconds
-        this.interval = setInterval(() => this.retrieve(), 5000);
+        // Retrieve first on creation
+        this.retrieve()
+            .then(() => {
+                // Then retrieve every 5 seconds
+                this.interval = setInterval(() => this.retrieve(), 5000);
+            });
     },
 
     methods: {
         // Import displayLocation method for view use
         displayLocation,
 
-        logout() {
-            this.$store.dispatch('logout')
-                .then(() => this.$router.push('/login'));
-        },
-
         retrieve() {
             return fetchOpenRides(this.$store.state.auth.token)
                 .then((res) => {
-                    if (res.data.length === 0) {
-                        this.errorMessage = 'List is empty';
+                    if (res.data.orders.length === 0) {
+                        this.errorMessage = 'Der er ingen åbne ture';
                         return;
                     }
 
@@ -157,6 +160,10 @@ export default {
 
 <style lang="scss">
 @import '../styles/helpers.scss';
+
+.content {
+    background-color: #F2F1F1;
+}
 
 .rides {
     padding: 0;
@@ -198,6 +205,8 @@ export default {
 }
 
 .error {
+    text-align: center;
+
     color: red;
 }
 

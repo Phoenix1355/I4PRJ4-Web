@@ -1,26 +1,22 @@
 // auth/mutations.js
 
-import Cookie from 'js-cookie';
-
 export function AuthToken(state, token) {
     state.token = token;
 
-    if (token == null) {
-        return Cookie.remove('token');
-    }
-
-    // Set cookie for saving the session
-    if (!Cookie.get('token')) {
-        Cookie.set('token', token);
+    if (state.token == null) {
+        localStorage.clear();
+    } else {
+        localStorage.setItem('token', token);
     }
 }
 
-export function AuthUser(state, user) {
-    // Forcing proper mutation and discarding unecesarry keys
+export function AuthUser(state, { name, email }) {
     state.user = {
-        name: user.name,
-        email: user.email,
+        name,
+        email,
     };
+
+    localStorage.setItem('user', JSON.stringify({ name, email }));
 }
 
 export function AuthError(state, error) {

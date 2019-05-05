@@ -1,7 +1,8 @@
 <template lang="html">
-    <div>
-        <nuxt />
-    </div>
+    <div
+        role="none"
+        class="dropdown-divider"
+    />
 </template>
 
 <script>
