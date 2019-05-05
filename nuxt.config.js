@@ -33,6 +33,7 @@ module.exports = {
     ** Global CSS
     */
     css: [
+        'normalize.css/normalize.css',
         '@/styles/main.scss',
     ],
 
