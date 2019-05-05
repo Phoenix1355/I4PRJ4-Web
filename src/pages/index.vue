@@ -2,7 +2,7 @@
     <Page>
         <Container>
             <h1>Turoversigt</h1>
-            <div v-if="loggedIn">
+            <div>
                 <p
                     v-if="errorMessage !== ''"
                     class="error"
@@ -44,6 +44,9 @@
                     <i>Henter de seneste ture...</i>
                 </p>
             </div>
+            <Modal ref="modal">
+                <p>Content</p>
+            </Modal>
         </Container>
     </Page>
 </template>
@@ -56,6 +59,7 @@ import { displayLocation } from '../utils';
 
 import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
+import Modal from '../components/Modal.vue';
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -77,13 +81,14 @@ export default {
     components: {
         Page,
         Container,
+        Modal,
     },
 
     data: () => ({
         items: [],
         errorMessage: '',
         interval: null,
-        currentRides: null,
+        currentRide: null,
     }),
 
     head: () => ({
@@ -148,7 +153,8 @@ export default {
         },
 
         setRide(id) {
-            console.log(id);
+            this.currentRide = id;
+            this.$refs.modal.open();
         },
 
         acceptRide(id) {
