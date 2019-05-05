@@ -1,12 +1,28 @@
 // auth.spec.js
 
-import Cookie from 'js-cookie';
 import { AuthToken, AuthUser, AuthError } from './mutations';
 
-jest.mock('js-cookie');
+const localStorageMock = (() => {
+    let store = {};
+    return {
+        getItem: jest.fn(key => store[key] || null),
+        setItem: jest.fn((key, value = '') => {
+            store[key] = `${value}`; // Force string
+        }),
+        removeItem: jest.fn((key) => {
+            delete store[key];
+        }),
+        clear: jest.fn(() => {
+            store = {};
+        }),
+        test: () => console.log('test'),
+    };
+})();
 
-// Default return value
-Cookie.get.mockReturnValue(true);
+Object.defineProperty(global, '_localStorage', {
+    value: localStorageMock,
+    writable: false,
+});
 
 describe('mutations', () => {
     it('AuthToken_SimpleState_StateWasSet', async () => {
@@ -22,7 +38,20 @@ describe('mutations', () => {
         expect(state.token).toBe(token);
     });
 
-    it('AuthToken_NullToken_CookieWasRemoved', async () => {
+    it('AuthToken_ValidToken_LocalStorageSet', async () => {
+        // The fake state
+        const state = {
+            token: '',
+        };
+
+        const token = 'Valid Token';
+
+        await AuthToken(state, token);
+
+        expect(localStorageMock.setItem).toBeCalledWith('token', token);
+    });
+
+    it('AuthToken_NullToken_LocalStorageSet', async () => {
         // The fake state
         const state = {
             token: '',
@@ -32,22 +61,7 @@ describe('mutations', () => {
 
         await AuthToken(state, token);
 
-        expect(Cookie.remove).toBeCalledWith('token');
-    });
-
-    it('AuthToken_NoCookieSet_CookieWasSet', async () => {
-        Cookie.get.mockReturnValue(false);
-
-        // The fake state
-        const state = {
-            token: '',
-        };
-
-        const token = 'A valid token';
-
-        await AuthToken(state, token);
-
-        expect(Cookie.set).toBeCalledWith('token', token);
+        expect(localStorageMock.setItem).toBeCalledWith('token', null);
     });
 
     it('AuthUser_SimpleState_StateWasSet', async () => {

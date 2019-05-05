@@ -1,18 +1,9 @@
 // auth/mutations.js
 
-import Cookie from 'js-cookie';
-
 export function AuthToken(state, token) {
     state.token = token;
 
-    if (token == null) {
-        return Cookie.remove('token');
-    }
-
-    // Set cookie for saving the session
-    if (!Cookie.get('token')) {
-        Cookie.set('token', token);
-    }
+    localStorage.setItem('token', token);
 }
 
 export function AuthUser(state, user) {
@@ -21,6 +12,8 @@ export function AuthUser(state, user) {
         name: user.name,
         email: user.email,
     };
+
+    localStorage.setItem('user', user);
 }
 
 export function AuthError(state, error) {
