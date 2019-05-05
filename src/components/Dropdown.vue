@@ -97,6 +97,32 @@ export default {
         border: 1px solid $border-color;
         border-radius: 4px;
 
+        // The arrow
+        &:after,
+        &:before {
+            bottom: 100%;
+            left: 50%;
+            border: solid transparent;
+            content: " ";
+            height: 0;
+            width: 0;
+            position: absolute;
+            pointer-events: none;
+        }
+
+        &:after {
+            border-color: rgba(255, 255, 255, 0);
+            border-bottom-color: #ffffff;
+            border-width: 8px;
+            margin-left: -8px;
+        }
+        &:before {
+            border-color: rgba(194, 225, 245, 0);
+            border-bottom-color: $border-color;
+            border-width: 9px;
+            margin-left: -9px;
+        }
+
         .dropdown-head,
         .dropdown-item {
             @extend .barley;
