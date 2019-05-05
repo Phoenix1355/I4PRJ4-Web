@@ -6,14 +6,14 @@ export function AuthToken(state, token) {
     localStorage.setItem('token', token);
 }
 
-export function AuthUser(state, user) {
+export function AuthUser(state, { name, email }) {
     // Forcing proper mutation and discarding unecesarry keys
     state.user = {
-        name: user.name,
-        email: user.email,
+        name,
+        email,
     };
 
-    localStorage.setItem('user', user);
+    localStorage.setItem('user', { name, email });
 }
 
 export function AuthError(state, error) {

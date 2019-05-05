@@ -20,13 +20,10 @@
 export default {
     computed: {
         name() {
-            // TODO: Retrieve TaxiCompany name from store
-            // return this.$store.state.auth.user.name || 'temp';
-            return 'Firstname';
+            return this.$store.state.auth.user.name;
         },
         email() {
-            // TODO: Retrieve email from the store
-            return 'wrong@email.dk';
+            return this.$store.state.auth.user.email;
         },
     },
     methods: {
