@@ -1,67 +1,51 @@
 <template>
-    <Container>
-        <div class="header">
-            <p class="smartCab">SmartCab</p>
-            <div class="dropdown">
-                <button class="dropbtn">
-                    {{ name }}
-                </button>
-                <div class="dropdown-content">
-                    <a href="">Rediger konto</a>
-                    <a
-                        href=""
-                        @click="logout()"
-                    >
-                        Log ud
-                    </a>
-                </div>
-                <small> {{ email }} </small>
-            </div>
-        </div>
-        <h1>Turoversigt</h1>
-        <div v-if="loggedIn">
-            <p
-                v-if="errorMessage !== ''"
-                class="error"
-            >
-                {{ errorMessage }}
-            </p>
-            <ul
-                v-if="items.length > 0"
-                class="rides"
-            >
-                <li
-                    v-for="item in items"
-                    :key="item.id"
-                    class="item"
-                    @click="setRide(item.id)"
+    <Page>
+        <Container>
+            <h1>Turoversigt</h1>
+            <div v-if="loggedIn">
+                <p
+                    v-if="errorMessage !== ''"
+                    class="error"
                 >
-                    <div class="item-group">
-                        <small>Start</small>
-                        <p>{{ displayLocation(item.startDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Slut</small>
-                        <p>{{ displayLocation(item.endDestination) }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Tidspunkt</small>
-                        <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
-                    </div>
-                    <div class="item-group">
-                        <small>Pris</small>
-                        <p>{{ item.price }} DKK</p>
-                    </div>
-                </li>
-            </ul>
-            <p
-                v-else
-                align="center"
-            >
-                <i>Henter de seneste ture...</i>
-            </p>
-        </div>
-    </Container>
+                    {{ errorMessage }}
+                </p>
+                <ul
+                    v-else-if="items.length > 0"
+                    class="rides"
+                >
+                    <li
+                        v-for="item in items"
+                        :key="item.id"
+                        class="item"
+                        @click="setRide(item.id)"
+                    >
+                        <div class="item-group">
+                            <small>Start</small>
+                            <p>{{ displayLocation(item.startDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Slut</small>
+                            <p>{{ displayLocation(item.endDestination) }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Tidspunkt</small>
+                            <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
+                        </div>
+                        <div class="item-group">
+                            <small>Pris</small>
+                            <p>{{ item.price }} DKK</p>
+                        </div>
+                    </li>
+                </ul>
+                <p
+                    v-else
+                    align="center"
+                >
+                    <i>Henter de seneste ture...</i>
+                </p>
+            </div>
+        </Container>
+    </Page>
 </template>
 
 <script>
@@ -69,6 +53,8 @@ import Moment from 'moment';
 
 import { fetchOpenRides, acceptRide } from '../api';
 import { displayLocation } from '../utils';
+
+import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 
 /**
@@ -90,6 +76,7 @@ import Container from '../components/Container.vue';
 export default {
     middleware: 'auth',
     components: {
+        Page,
         Container,
     },
 
@@ -118,27 +105,25 @@ export default {
      * @memberOf Pages/Index
      */
     created() {
-        // Retrieve first on creation
-        this.retrieve();
+        console.log('Retrieving latest open rides');
 
-        // Then retrieve every 5 seconds
-        this.interval = setInterval(() => this.retrieve(), 5000);
+        // Retrieve first on creation
+        this.retrieve()
+            .then(() => {
+                // Then retrieve every 5 seconds
+                this.interval = setInterval(() => this.retrieve(), 5000);
+            });
     },
 
     methods: {
         // Import displayLocation method for view use
         displayLocation,
 
-        logout() {
-            this.$store.dispatch('logout')
-                .then(() => this.$router.push('/login'));
-        },
-
         retrieve() {
             return fetchOpenRides(this.$store.state.auth.token)
                 .then((res) => {
-                    if (res.data.length === 0) {
-                        this.errorMessage = 'List is empty';
+                    if (res.data.orders.length === 0) {
+                        this.errorMessage = 'Der er ingen åbne ture';
                         return;
                     }
 
@@ -210,56 +195,9 @@ export default {
 }
 
 .error {
+    text-align: center;
+
     color: red;
 }
-
-.header {
-    display: grid;
-    grid-template-columns: repeat(8, 1fr);
-    grid-gap: 10px;
-    grid-template-areas: "a b c d e f g h";
-    border-bottom: 1px solid #DDD;
-    .smartCab {
-        grid-area: a;
-        font-size: 16px;
-        font-weight: bold;
-    }
-
-    .dropdown {
-        grid-area: h;
-    }
-}
-
-.dropbtn {
-    background-color: White;
-    color: Black;
-    padding: 16px;
-    font-size: 16px;
-    font-weight: bold;
-    border: none;
-}
-
-.dropdown-content {
-    display: none;
-    position: absolute;
-    background-color: #f1f1f1;
-    min-width: 160px;
-    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
-    border: 1px solid #DDD;
-}
-
-.dropdown-content a {
-    color: black;
-    padding: 12px 16px;
-    text-decoration: none;
-    display: block;
-}
-
-.dropdown-content a:hover {background-color: #ddd;}
-
-.dropdown:hover .dropdown-content {display: block;}
-
-.dropdown:hover .dropbtn {background-color: #ddd;}
 
 </style>
