@@ -58,6 +58,18 @@
                             </li>
                         </ul>
                         <h4>Kunder</h4>
+                        <ul>
+                            <li
+                                v-for="item in currentRide.details.customers"
+                                :key="item.customerId"
+                            >
+                                <p class="customer">
+                                    <span>{{ item.customer.name }}</span>
+                                    <span>{{ item.customer.phoneNumber }}</span>
+                                    <span>{{ item.customer.email }}</span>
+                                </p>
+                            </li>
+                        </ul>
                         <h4>Detaljer</h4>
                     </div>
                 </div>
@@ -69,7 +81,7 @@
                     </Button>
                     <Button
                         type="secondary"
-                        @click="this.$refs.modal.close()"
+                        @click="closeModal()"
                     >
                         Annuler
                     </Button>
@@ -172,6 +184,10 @@ export default {
         // Import displayLocation method for view use
         displayLocation,
 
+        closeModal() {
+            this.$refs.modal.close();
+        },
+
         retrieve() {
             if (this.errorMessage !== '') {
                 console.log('Clearing interval because of error');
@@ -214,23 +230,29 @@ export default {
 
                     console.log(res);
 
-                    const startArray = [];
-                    const endArray = [];
+                    const customers = [];
+                    const startDests = [];
+                    const endDests = [];
                     let i = 0;
 
                     order.rides.forEach((item) => {
-                        startArray.push({
+                        startDests.push({
                             dest: item.startDestination,
                             key: i++, // eslint-disable-line
                         });
-                        endArray.push({
+                        endDests.push({
                             dest: item.endDestination,
                             key: i++, // eslint-disable-line
+                        });
+                        customers.push({
+                            customer: item.customer,
+                            key: item.customerId,
                         });
                     });
 
                     this.currentRide.details = {
-                        rides: startArray.concat(endArray),
+                        rides: startDests.concat(endDests),
+                        customers,
                     };
                 })
                 .catch((err) => {
