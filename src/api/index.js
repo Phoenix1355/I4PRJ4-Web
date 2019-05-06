@@ -33,7 +33,7 @@ export function openRidesDetails(token, id) {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    }, id);
+    });
 }
 
 export function openRidesAccept(token, id) {
@@ -45,9 +45,11 @@ export function openRidesAccept(token, id) {
         return false;
     }
 
-    return axios.put(`/api/Order/${id}/Accept`, {
+    console.log(token);
+
+    return axios.put(`/api/Order/${id}/Accept`, '', {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    }, id);
+    });
 }

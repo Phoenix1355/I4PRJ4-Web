@@ -18,6 +18,9 @@
                     <DropdownItem href="#">
                         Rediger konto
                     </DropdownItem>
+                    <DropdownItem @click="testToken()">
+                        Test Token
+                    </DropdownItem>
                     <DropdownItem @click="logout()">
                         Log ud
                     </DropdownItem>
@@ -28,6 +31,8 @@
 </template>
 
 <script>
+import axios from 'axios';
+
 import Dropdown, { DropdownHead, DropdownItem, DropdownDivider } from './Dropdown.vue';
 import Container from './Container.vue';
 
@@ -54,6 +59,13 @@ export default {
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
+        },
+        testToken() {
+            const {
+                token,
+            } = this.$store.state.auth;
+
+            console.log(token);
         },
     },
 };
