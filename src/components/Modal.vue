@@ -96,6 +96,10 @@ export default {
         box-shadow: $shadow-big;
     }
 
+    .modal-content {
+        padding: 10px 30px;
+    }
+
     .modal-footer {
         display: flex;
         justify-content: flex-end;

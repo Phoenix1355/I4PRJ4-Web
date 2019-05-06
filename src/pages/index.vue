@@ -46,15 +46,34 @@
             </div>
             <Modal ref="modal">
                 <div slot="content">
-                    <p>Content</p>
+                    <p v-if="currentRide.details == null">Loading...</p>
+                    <div v-else>
+                        <h4>Turoversigt</h4>
+                        <ul>
+                            <li
+                                v-for="item in currentRide.details.rides"
+                                :key="item.key"
+                            >
+                                <p>{{ displayLocation(item.dest) }}</p>
+                            </li>
+                        </ul>
+                        <h4>Kunder</h4>
+                        <h4>Detaljer</h4>
+                    </div>
                 </div>
-                <div slot="footer">
+                <template slot="footer">
                     <Button
                         @click="acceptCurrentRide()"
                     >
                         Accepter
                     </Button>
-                </div>
+                    <Button
+                        type="secondary"
+                        @click="this.$refs.modal.close()"
+                    >
+                        Annuler
+                    </Button>
+                </template>
             </Modal>
         </Container>
     </Page>
@@ -73,7 +92,7 @@ import Modal from '../components/Modal.vue';
 
 // List of status errors and the message to display.
 const errors = {
-    401: 'Din session er løbet ud. Log ind igen.', // Unauthorized
+    401: 'Din session token er ikke valid.', // Unauthorized
 };
 
 /**
@@ -104,7 +123,10 @@ export default {
         items: [],
         errorMessage: '',
         interval: null,
-        currentRide: null,
+        currentRide: {
+            id: null,
+            details: null,
+        },
     }),
 
     head: () => ({
@@ -177,23 +199,54 @@ export default {
         },
 
         setRide(id) {
-            this.currentRide = id;
+            this.currentRide.id = id;
+            this.currentRide.details = null;
+
+            // Open the modal
             this.$refs.modal.open();
 
+            // Fetch the details for the given ride
             openRidesDetails(this.$store.state.auth.token, id)
                 .then((res) => {
+                    const {
+                        data: order,
+                    } = res;
+
                     console.log(res);
+
+                    const startArray = [];
+                    const endArray = [];
+                    let i = 0;
+
+                    order.rides.forEach((item) => {
+                        startArray.push({
+                            dest: item.startDestination,
+                            key: i++, // eslint-disable-line
+                        });
+                        endArray.push({
+                            dest: item.endDestination,
+                            key: i++, // eslint-disable-line
+                        });
+                    });
+
+                    this.currentRide.details = {
+                        rides: startArray.concat(endArray),
+                    };
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.errorMessage = errors[err.response.status];
                 });
         },
 
         acceptCurrentRide() {
             // DEBUG: For testing purposes
-            console.log(`Accepting ride: ${this.currentRide} `);
+            console.log(`Accepting ride: ${this.currentRide.id} `);
 
             // If the ride hasen't been set, we shouldn't try to accept
-            if (this.currentRide == null) return;
+            if (this.currentRide.id == null) return;
 
-            openRidesAccept(this.$store.state.auth.token, this.currentRide)
+            openRidesAccept(this.$store.state.auth.token, this.currentRide.id)
                 .then((res) => {
                     console.log(res);
 
