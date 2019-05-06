@@ -54,11 +54,11 @@ describe('Testing API Calls', () => {
 
         await openRidesDetails(fakeToken, fakeId);
 
-        expect(axios.get).toBeCalledWith('/api/Order/1/Details', {
+        expect(axios.get).toBeCalledWith(`/api/Order/${fakeId}/Details`, {
             headers: {
                 Authorization: `Bearer ${fakeToken}`,
             },
-        }, fakeId);
+        });
     });
 
     it('OpenRidesDetails_NonValidTokenValidId_ReturnsFalse', async () => {
@@ -91,11 +91,11 @@ describe('Testing API Calls', () => {
 
         await openRidesAccept(fakeToken, fakeId);
 
-        expect(axios.put).toBeCalledWith('/api/Order/1/Accept', {
+        expect(axios.put).toBeCalledWith(`/api/Order/${fakeId}/Accept`, '', {
             headers: {
                 Authorization: `Bearer ${fakeToken}`,
             },
-        }, fakeId);
+        });
     });
 
     it('OpenRidesAccept_NonValidTokenValidId_ReturnsFalse', async () => {

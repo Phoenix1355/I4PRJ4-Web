@@ -45,8 +45,6 @@ export function openRidesAccept(token, id) {
         return false;
     }
 
-    console.log(token);
-
     return axios.put(`/api/Order/${id}/Accept`, '', {
         headers: {
             Authorization: `Bearer ${token}`,
