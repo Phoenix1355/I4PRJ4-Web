@@ -71,6 +71,16 @@
                             </li>
                         </ul>
                         <h4>Detaljer</h4>
+                        <p>Pris: {{ currentRide.details.price }} DKK</p>
+                        <p>Antal passagerer: {{ currentRide.details.passengerCount }}</p>
+                        <p>
+                            Tidspunkt:
+                            {{ currentRide.details.departureTime.format("D MMM YYYY, HH:mm") }}
+                        </p>
+                        <p>
+                            Senest bekræftes:
+                            {{ currentRide.details.confirmationTime.format("D MMM YYYY, HH:mm") }}
+                        </p>
                     </div>
                 </div>
                 <template slot="footer">
@@ -230,12 +240,21 @@ export default {
 
                     console.log(res);
 
-                    const customers = [];
                     const startDests = [];
                     const endDests = [];
                     let i = 0;
 
-                    order.rides.forEach((item) => {
+                    const customers = [];
+
+                    let passengerCount = 0;
+
+                    const sortedRides = order.rides.sort(
+                        (a, b) => new Date(a.departureTime) - new Date(b.departureTime)
+                    );
+
+                    let shortestConf = null;
+
+                    sortedRides.forEach((item) => {
                         startDests.push({
                             dest: item.startDestination,
                             key: i++, // eslint-disable-line
@@ -248,11 +267,23 @@ export default {
                             customer: item.customer,
                             key: item.customerId,
                         });
+                        passengerCount += item.passengerCount;
+
+                        if (shortestConf == null
+                        || new Date(item.confirmationDeadline) < new Date(shortestConf)) {
+                            console.log('new conf deadline', item.confirmationDeadline);
+                            shortestConf = item.confirmationDeadline;
+                        }
                     });
 
                     this.currentRide.details = {
                         rides: startDests.concat(endDests),
                         customers,
+                        price: order.price,
+                        passengerCount,
+                        departureTime: new Moment(sortedRides[0].departureTime),
+                        confirmationTime: new Moment(shortestConf),
+
                     };
                 })
                 .catch((err) => {
