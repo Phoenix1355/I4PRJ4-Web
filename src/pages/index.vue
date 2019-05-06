@@ -54,12 +54,17 @@
 <script>
 import Moment from 'moment';
 
-import { fetchOpenRides, acceptRide } from '../api';
+import { openRidesAll, openRidesDetails, openRidesAccept } from '../api';
 import { displayLocation } from '../utils';
 
 import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 import Modal from '../components/Modal.vue';
+
+// List of status errors and the message to display.
+const errors = {
+    401: 'Din session er løbet ud. Log ind igen.', // Unauthorized
+};
 
 /**
  * The main page displaying the rides. The client must be logged in to see this
@@ -135,7 +140,12 @@ export default {
         displayLocation,
 
         retrieve() {
-            return fetchOpenRides(this.$store.state.auth.token)
+            if (this.errorMessage !== '') {
+                console.log('Clearing interval because of error');
+                return clearInterval(this.interval);
+            }
+
+            return openRidesAll(this.$store.state.auth.token)
                 .then((res) => {
                     if (res.data.orders.length === 0) {
                         this.errorMessage = 'Der er ingen åbne ture';
@@ -149,12 +159,19 @@ export default {
                         departureTime: new Moment(item.rides[0].departureTime),
                         price: item.price,
                     }));
+                })
+                .catch((err) => {
+                    this.errorMessage = errors[err.response.status];
                 });
         },
 
         setRide(id) {
             this.currentRide = id;
             this.$refs.modal.open();
+
+            const details = openRidesDetails(id);
+
+            // Use details
         },
 
         acceptRide(id) {

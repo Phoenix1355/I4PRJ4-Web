@@ -1,11 +1,20 @@
 // api.spec.js
 
 import axios from 'axios';
-import { attemptLogin, fetchOpenRides, acceptRide } from './index';
+import {
+    attemptLogin,
+    openRidesAll,
+    openRidesDetails,
+    openRidesAccept,
+} from './index';
 
 jest.mock('axios');
 
 describe('Testing API Calls', () => {
+    beforeEach(() => {
+        axios.mockReset();
+    });
+
     it('AttemptLogin_ValidInfo_ApiWasCalled', async () => {
         const fakeEmail = 'hej@hej.com';
         const fakePassword = '1234!Hej';
@@ -21,10 +30,10 @@ describe('Testing API Calls', () => {
         });
     });
 
-    it('FetchOpenRides_ValidBearerToken_ApiWasCalled', async () => {
+    it('OpenRidesAll_ValidBearerToken_ApiWasCalled', async () => {
         const fakeToken = 'Valid token';
 
-        await fetchOpenRides(fakeToken);
+        await openRidesAll(fakeToken);
 
         expect(axios.get).toBeCalledWith('/api/Order/Open', {
             headers: {
@@ -33,47 +42,83 @@ describe('Testing API Calls', () => {
         });
     });
 
-    it('FetchOpenRides_NonValidToken_ReturnsFalse', async () => {
+    it('OpenRidesAll_NonValidToken_ReturnsFalse', async () => {
         const fakeToken = null;
 
-        expect(await fetchOpenRides(fakeToken)).toBe(false);
+        expect(await openRidesAll(fakeToken)).toBe(false);
     });
 
-    it('AcceptRide_ValidBearerToken_ApiWasCalled', async () => {
+    it('OpenRidesDetails_ValidBearerToken_ApiWasCalled', async () => {
         const fakeToken = 'Valid token';
         const fakeId = '1';
 
-        await acceptRide(fakeToken, fakeId);
+        await openRidesDetails(fakeToken, fakeId);
+
+        expect(axios.get).toBeCalledWith('/api/Order/1/Details', {
+            headers: {
+                Authorization: `Bearer ${fakeToken}`,
+            },
+        }, fakeId);
+    });
+
+    it('OpenRidesDetails_NonValidTokenValidId_ReturnsFalse', async () => {
+        const fakeToken = null;
+
+        const fakeId = 1;
+
+        expect(await openRidesDetails(fakeToken, fakeId)).toBe(false);
+    });
+
+    it('OpenRidesDetails_ValidTokenNonValidId_ReturnsFalse', async () => {
+        const fakeToken = 'Valid token';
+
+        const fakeId = -1;
+
+        expect(await openRidesDetails(fakeToken, fakeId)).toBe(false);
+    });
+
+    it('OpenRidesDetails_NonValidTokenNonValidId_ReturnsFalse', async () => {
+        const fakeToken = null;
+
+        const fakeId = -1;
+
+        expect(await openRidesDetails(fakeToken, fakeId)).toBe(false);
+    });
+
+    it('OpenRidesAccept_ValidBearerToken_ApiWasCalled', async () => {
+        const fakeToken = 'Valid token';
+        const fakeId = '1';
+
+        await openRidesAccept(fakeToken, fakeId);
 
         expect(axios.put).toBeCalledWith('/api/Order/1/Accept', {
             headers: {
                 Authorization: `Bearer ${fakeToken}`,
             },
-        },
-        fakeId);
+        }, fakeId);
     });
 
-    it('AcceptRide_NonValidTokenValidId_ReturnsFalse', async () => {
+    it('OpenRidesAccept_NonValidTokenValidId_ReturnsFalse', async () => {
         const fakeToken = null;
 
         const fakeId = 1;
 
-        expect(await acceptRide(fakeToken, fakeId)).toBe(false);
+        expect(await openRidesAccept(fakeToken, fakeId)).toBe(false);
     });
 
-    it('AcceptRide_ValidTokenNonValidId_ReturnsFalse', async () => {
+    it('OpenRidesAccept_ValidTokenNonValidId_ReturnsFalse', async () => {
         const fakeToken = 'Valid token';
 
         const fakeId = -1;
 
-        expect(await acceptRide(fakeToken, fakeId)).toBe(false);
+        expect(await openRidesAccept(fakeToken, fakeId)).toBe(false);
     });
 
-    it('AcceptRide_NonValidTokenNonValidId_ReturnsFalse', async () => {
+    it('OpenRidesAccept_NonValidTokenNonValidId_ReturnsFalse', async () => {
         const fakeToken = null;
 
         const fakeId = -1;
 
-        expect(await acceptRide(fakeToken, fakeId)).toBe(false);
+        expect(await openRidesAccept(fakeToken, fakeId)).toBe(false);
     });
 });

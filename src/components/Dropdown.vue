@@ -75,7 +75,7 @@ export default {
         align-items: center;
         justify-content: center;
         height: 40px;
-        padding: 0 30px;
+        padding: 0;
 
         text-align: center;
 

@@ -8,7 +8,7 @@ export function attemptLogin({ email, password }) {
     return axios.post('/api/TaxiCompany/Login', { email, password });
 }
 
-export function fetchOpenRides(token) {
+export function openRidesAll(token) {
     if (token === null || token === '') {
         return false;
     }
@@ -20,7 +20,23 @@ export function fetchOpenRides(token) {
     });
 }
 
-export function acceptRide(token, id) {
+export function openRidesDetails(token, id) {
+    if (token === null || token === '') {
+        return false;
+    }
+
+    if (id < 0) {
+        return false;
+    }
+
+    return axios.get(`/api/Order/${id}/Details`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    }, id);
+}
+
+export function openRidesAccept(token, id) {
     if (token === null || token === '') {
         return false;
     }
@@ -33,6 +49,5 @@ export function acceptRide(token, id) {
         headers: {
             Authorization: `Bearer ${token}`,
         },
-    },
-    id);
+    }, id);
 }

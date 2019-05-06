@@ -15,7 +15,6 @@ const localStorageMock = (() => {
         clear: jest.fn(() => {
             store = {};
         }),
-        test: () => console.log('test'),
     };
 })();
 
@@ -24,7 +23,14 @@ Object.defineProperty(global, '_localStorage', {
     writable: false,
 });
 
-describe('mutations', () => {
+describe('AuthMutations', () => {
+    beforeEach(() => {
+        localStorageMock.getItem.mockReset();
+        localStorageMock.setItem.mockReset();
+        localStorageMock.removeItem.mockReset();
+        localStorageMock.clear.mockReset();
+    });
+
     it('AuthToken_SimpleState_StateWasSet', async () => {
         // The fake state
         const state = {
@@ -61,7 +67,7 @@ describe('mutations', () => {
 
         await AuthToken(state, token);
 
-        expect(localStorageMock.setItem).toBeCalledWith('token', null);
+        expect(localStorageMock.clear).toBeCalled();
     });
 
     it('AuthUser_SimpleState_StateWasSet', async () => {
