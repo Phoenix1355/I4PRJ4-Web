@@ -45,7 +45,16 @@
                 </p>
             </div>
             <Modal ref="modal">
-                <p>Content</p>
+                <div slot="content">
+                    <p>Content</p>
+                </div>
+                <div slot="footer">
+                    <Button
+                        @click="acceptCurrentRide()"
+                    >
+                        Accepter
+                    </Button>
+                </div>
             </Modal>
         </Container>
     </Page>
@@ -57,6 +66,7 @@ import Moment from 'moment';
 import { openRidesAll, openRidesDetails, openRidesAccept } from '../api';
 import { displayLocation } from '../utils';
 
+import Button from '../components/Button.vue';
 import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 import Modal from '../components/Modal.vue';
@@ -87,6 +97,7 @@ export default {
         Page,
         Container,
         Modal,
+        Button,
     },
 
     data: () => ({
@@ -169,13 +180,29 @@ export default {
             this.currentRide = id;
             this.$refs.modal.open();
 
-            const details = openRidesDetails(id);
-
-            // Use details
+            openRidesDetails(this.$store.state.auth.token, id)
+                .then((res) => {
+                    console.log(res);
+                });
         },
 
-        acceptRide(id) {
-            acceptRide(this.$store.state.auth.token, id);
+        acceptCurrentRide() {
+            // DEBUG: For testing purposes
+            console.log(`Accepting ride: ${this.currentRide} `);
+
+            // If the ride hasen't been set, we shouldn't try to accept
+            if (this.currentRide == null) return;
+
+            openRidesAccept(this.$store.state.auth.token, this.currentRide)
+                .then((res) => {
+                    console.log(res);
+
+                    // Close the modal
+                    this.$refs.modal.close();
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
     },
 };

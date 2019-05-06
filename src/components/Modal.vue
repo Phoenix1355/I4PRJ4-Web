@@ -18,7 +18,10 @@
                 </button>
             </div>
             <div class="modal-content">
-                <slot />
+                <slot name="content" />
+            </div>
+            <div class="modal-footer">
+                <slot name="footer" />
             </div>
         </div>
     </div>
@@ -84,11 +87,21 @@ export default {
         position: relative;
         z-index: 98;
 
+        display: grid;
+        grid-template-rows: auto 1fr auto;
         width: 800px;
         min-height: 400px;
 
         background-color: $white;
         box-shadow: $shadow-big;
+    }
+
+    .modal-footer {
+        display: flex;
+        justify-content: flex-end;
+        padding: 10px 30px;
+
+        border-top: 1px solid $border-color;
     }
 
     .modal-close {

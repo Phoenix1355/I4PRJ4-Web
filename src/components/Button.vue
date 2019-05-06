@@ -1,7 +1,7 @@
 <template>
     <button
         class="button"
-        @click="onClick"
+        @click="$emit('click', $event)"
     >
         <slot>Button</slot>
     </button>
@@ -16,13 +16,7 @@
  * @vue-prop {Function} onClick - The binding onclick event prop
  */
 export default {
-    props: {
-        onClick: {
-            type: Function,
-            required: false,
-            default: () => {},
-        },
-    },
+    
 };
 </script>
 
