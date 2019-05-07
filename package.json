@@ -11,7 +11,7 @@
     "generate": "nuxt generate",
     "test": "jest",
     "coveralls": "jest --coverage && cat ./tests/coverage/lcov.info | coveralls",
-    "docs": "jsdoc -d docs -c .jsdoc.js",
+    "docs": "jsdoc -d docs/jsdocs -c .jsdoc.js",
     "lint": "eslint 'src/**/*.{js,vue}'"
   },
   "dependencies": {
