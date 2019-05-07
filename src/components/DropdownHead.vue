@@ -1,6 +1,9 @@
 <template lang="html">
-    <div>
-        <nuxt />
+    <div
+        role="menuheader"
+        class="dropdown-head"
+    >
+        <slot />
     </div>
 </template>
 

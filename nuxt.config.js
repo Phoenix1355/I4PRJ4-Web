@@ -1,9 +1,4 @@
-const fs = require('fs');
 const pkg = require('./package');
-
-const externalModules = fs.readdirSync('node_modules')
-    .filter(x => ['.bin'].indexOf(x) === -1)
-    .reduce((acc, cur) => Object.assign(acc, { [cur]: `commonjs ${cur}` }), {});
 
 module.exports = {
     mode: 'spa',
@@ -13,7 +8,7 @@ module.exports = {
     ** Headers of the page
     */
     head: {
-        title: pkg.name,
+        titleTemplate: '%s – SmartCab',
         meta: [
             { charset: 'utf-8' },
             { name: 'viewport', content: 'width=device-width, initial-scale=1' },
@@ -33,6 +28,7 @@ module.exports = {
     ** Global CSS
     */
     css: [
+        'normalize.css/normalize.css',
         '@/styles/main.scss',
     ],
 
@@ -61,6 +57,7 @@ module.exports = {
     */
     router: {
         // base: '/prj4-web-test/',
+        middleware: ['auth'],
     },
 
     /*
@@ -72,7 +69,7 @@ module.exports = {
         */
         extend(config, ctx) {
             if (ctx.isClient) {
-                config.externals = externalModules();
+                // config.externals = externalModules();
             }
         },
     },
