@@ -167,6 +167,16 @@ export default {
                 background-color: $blue;
             }
         }
+        .dropdown-item[disabled="disabled"] {
+            color: rgba($black, 0.5);
+
+            cursor: not-allowed;
+
+            &:hover {
+                color: rgba($black, 0.5);
+                background-color: transparent;
+            }
+        }
     }
 
     &.is-expanded {

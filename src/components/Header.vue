@@ -15,11 +15,10 @@
                         <strong>{{ email }}</strong>
                     </DropdownHead>
                     <DropdownDivider />
-                    <DropdownItem href="#">
+                    <DropdownItem
+                        disabled
+                    >
                         Rediger konto
-                    </DropdownItem>
-                    <DropdownItem @click="testToken()">
-                        Test Token
                     </DropdownItem>
                     <DropdownItem @click="logout()">
                         Log ud
@@ -31,8 +30,6 @@
 </template>
 
 <script>
-import axios from 'axios';
-
 import Dropdown, { DropdownHead, DropdownItem, DropdownDivider } from './Dropdown.vue';
 import Container from './Container.vue';
 

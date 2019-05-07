@@ -3,14 +3,11 @@
         role="menuitem"
         class="dropdown-item"
         @click="$emit('click', $event)"
-    >
-        <slot />
-    </a>
+    ><slot /></a>
 </template>
 
 <script>
 export default {
-
 };
 </script>
 
