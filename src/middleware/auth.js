@@ -47,7 +47,7 @@ export default async ({
         // If token isn't set (not logged in) and user isn't on login
         // screen, then redirect the user to login.
         redirect('/login');
-    } else if (store.state.auth.token && authPaths.indexOf(path) >= 0) {
+    } else if (store.state.auth.token != null && authPaths.indexOf(path) >= 0) {
         // If token is set (logged in) and the user is on login screen,
         // then redirect the user to home.
         redirect('/');

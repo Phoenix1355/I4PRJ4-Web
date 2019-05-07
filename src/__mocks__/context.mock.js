@@ -6,12 +6,18 @@ const fakeRoute = {
 
 const fakeStore = (() => {
     const state = {
-        auth: {},
+        auth: {
+            token: null,
+        },
     };
+
+    const commit = jest.fn();
+    const dispatch = jest.fn();
 
     return {
         state,
-        commit: jest.fn(),
+        commit,
+        dispatch,
     };
 })();
 
@@ -23,4 +29,16 @@ export default {
     store: fakeStore,
     route: fakeRoute,
     redirect: fakeRedirect,
+    clear: () => {
+        // Store
+        fakeStore.commit.mockClear();
+        fakeStore.dispatch.mockClear();
+        fakeStore.state.auth = {
+            token: null,
+        };
+        // Reset route
+        fakeRoute.path = '/';
+        // Reset redirect
+        fakeRedirect.mockClear();
+    },
 };
