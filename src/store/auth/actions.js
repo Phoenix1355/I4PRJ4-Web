@@ -28,7 +28,7 @@ export function login({ commit }, data) {
                 commit('AuthToken', token);
                 commit('AuthUser', taxiCompany);
 
-                resolve();
+                resolve(res.data);
             })
             .catch((err) => {
                 // Error carched, stop waiting
@@ -50,6 +50,4 @@ export function login({ commit }, data) {
  */
 export function logout({ commit }) {
     commit('AuthToken', null);
-
-    commit('AuthError', 0);
 }

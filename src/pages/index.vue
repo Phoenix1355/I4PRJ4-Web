@@ -90,7 +90,7 @@
                         Accepter
                     </Button>
                     <Button
-                        type="secondary"
+                        variant="secondary"
                         @click="closeModal()"
                     >
                         Annuler

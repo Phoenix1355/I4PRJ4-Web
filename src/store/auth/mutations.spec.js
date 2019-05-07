@@ -88,15 +88,4 @@ describe('AuthMutations', () => {
 
         expect(state.user.name).toBe('John');
     });
-
-    it('AuthError_SimpleState_StateWasSet', async () => {
-        // The fake state
-        const state = {
-            error: '',
-        };
-
-        await AuthError(state, 'New error');
-
-        expect(state.error).toBe('New error');
-    });
 });

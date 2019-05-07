@@ -1,8 +1,8 @@
 // api.spec.js
 
 import auth from './auth';
-import fakeLocalStorage from './__mocks__/localStorage';
-import fakeContext from './__mocks__/context';
+import fakeLocalStorage from '../__mocks__/localStorage.mock';
+import fakeContext from '../__mocks__/context.mock';
 
 Object.defineProperty(global, '_localStorage', {
     value: fakeLocalStorage,
