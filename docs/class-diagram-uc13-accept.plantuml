@@ -1,0 +1,57 @@
+@startuml UC13-Accept
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam backgroundColor transparent
+skinparam style strictuml
+
+package Nuxt {
+    class $router {
+        + currentRoute
+        --
+        + push(path) : void
+    }
+    class $store <<vuex>> {
+        + state : object
+        + getters : object
+        --
+        + commit(type, payload, options) : Promise
+        + dispatch(type, payload) : Promise
+    }
+}
+
+class auth {
+    + token : string <<get, set>>
+    --
+}
+$store ---> auth
+auth --> $router
+
+class api {
+    --
+    + attemptLogin(info) : Promise
+    + openRidesAll(token) : Promise
+    + openRidesDetails(token, id) : Promise
+    + openRidesAccept(token, id) : Promise
+}
+auth --> api
+
+class localStorage <<global>> {
+    --
+    + setItem(key, value) : void
+    + getItem(key) : string
+    + removeItem(key) : bool
+    + clear() : void
+}
+auth --> localStorage
+
+class axios <<package>> {
+    --
+    + get(url, config) : Promise
+    + post(url, data, config) : Promise
+    + put(url, data, config) : Promise
+}
+auth --> axios
+
+@enduml

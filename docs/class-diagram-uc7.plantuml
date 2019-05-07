@@ -1,0 +1,54 @@
+@startuml UC7-Login
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam backgroundColor transparent
+skinparam style strictuml
+
+package Nuxt {
+    class $router {
+        --
+        + push(path) : void
+    }
+
+    class $store <<vuex>> {
+        + state : object
+        --
+        + commit(type, payload, options) : Promise
+        + dispatch(type, payload) : Promise
+    }
+}
+
+class auth {
+    + token : string <<get, set>>
+    + error : string <<get, set>>
+    + user : object <<get, set>>
+    --
+    + attemptLogin() : void <<action>>
+    + AuthToken(state, token) : void <<mutation>>
+    + AuthUser(state, info) : void <<mutation>>
+    + AuthError(state, error) : void <<mutation>>
+}
+$store ---> auth
+auth --> $router
+
+class api {
+    --
+    + attemptLogin(info) : Promise
+}
+auth --> api
+
+class localStorage <<global>> {
+    --
+    + setItem(key, value) : void
+}
+auth --> localStorage
+
+class axios <<package>> {
+    --
+    + post(url, data, config) : Promise
+}
+auth --> axios
+
+@enduml

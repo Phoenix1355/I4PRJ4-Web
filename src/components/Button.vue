@@ -16,7 +16,7 @@
  * @vue-prop {Function} onClick - The binding onclick event prop
  */
 export default {
-    
+
 };
 </script>
 
@@ -38,5 +38,8 @@ export default {
     outline: 0;
     border-radius: 5px;
     cursor: pointer;
+}
+.button--disabled {
+    background-color: rgba($blue, 0.8);
 }
 </style>

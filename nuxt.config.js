@@ -53,13 +53,6 @@ module.exports = {
     },
 
     /*
-    ** Nuxt.js axios
-     */
-    axios: {
-        baseURL: 'https://smartcabbackend.azurewebsites.net',
-    },
-
-    /*
     ** Nuxt.js routing
     */
     router: {

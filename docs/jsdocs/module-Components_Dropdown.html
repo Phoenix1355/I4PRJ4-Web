@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Pages/Login</title>
+    <title>JSDoc: Module: Components/Dropdown</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Pages/Login</h1>
+    <h1 class="page-title">Module: Components/Dropdown</h1>
 
     
 
@@ -38,8 +38,33 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>The page displaying the login form</p></p></div></div> 
+            <div class="description"><p>The dropdown button that display the user information, aswell as providing a
+logout button.</p></p></div></div> 
 
+
+<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-props">Props</h3>
+<table data-jsdoc-vuejs="table-props">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default value</th>
+        <th>Required?</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    <tr>
+        <td><code>text</code></td>
+        <td>String</td>
+        <td>-</td>
+        <td><b>Yes</b></td>
+        <td>The text to display in the button</td>
+    </tr>
+    
+    </tbody>
+</table>
 
 
 
@@ -56,44 +81,16 @@
     <tbody>
     
     <tr>
-        <td><code>email</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input email</td>
-    </tr>
-    
-    <tr>
-        <td><code>password</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input password</td>
+        <td><code>active</code></td>
+        <td>Bool</td>
+        <td>-</td>
+        <td>The toggle for the dropdown menu</td>
     </tr>
     
     </tbody>
 </table>
 
 
-
-<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-computed">Computed</h3>
-<table data-jsdoc-vuejs="table-computed">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    <tr>
-        <td><code>errorMessage</code></td>
-        <td>String</td>
-        <td>Returns the error message attached to
-the error status code</td>
-    </tr>
-    
-    </tbody>
-</table>
 
 
 
@@ -110,9 +107,15 @@ the error status code</td>
     <tbody>
     
     <tr>
-        <td><code>login</code></td>
-        <td>String</td>
-        <td>The login method used for logging in</td>
+        <td><code>toggle</code></td>
+        <td>void</td>
+        <td>Toggles the active state</td>
+    </tr>
+    
+    <tr>
+        <td><code>blur</code></td>
+        <td>void</td>
+        <td>Set the active state to false</td>
     </tr>
     
     </tbody>

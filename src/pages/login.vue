@@ -37,7 +37,11 @@
                             >
                         </label>
                     </div>
-                    <Button type="submit">
+                    <Button
+                        type="submit"
+                        :disabled="waiting"
+                        :class="{ 'button--disabled': waiting }"
+                    >
                         <span v-if="!waiting">Log ind</span>
                         <span v-else>Loading</span>
                     </Button>
@@ -77,6 +81,7 @@ export default {
         Button,
     },
     data: () => ({
+        errorMessage: '',
         email: '',
         password: '',
     }),
@@ -91,13 +96,6 @@ export default {
         ],
     }),
     computed: {
-        errorMessage() {
-            const {
-                error,
-            } = this.$store.state.auth;
-
-            return errors[error];
-        },
         waiting() {
             const {
                 waiting,
@@ -114,7 +112,10 @@ export default {
             } = this;
 
             this.$store.dispatch('login', { email, password })
-                .then(() => this.$router.push('/'));
+                .then(() => this.$router.push('/'))
+                .catch((err) => {
+                    this.errorMessage = errors[err.response.status];
+                });
         },
     },
 };

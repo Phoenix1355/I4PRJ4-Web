@@ -6,6 +6,13 @@
  * revalidate cookies if any is set.
  */
 
+/**
+ * Authentication middleware
+ *
+ * @method
+ * @param  {Object}  context  The nuxt context that holds the vuex store and routes
+ * @return {void}
+ */
 export default async ({
     store,
     route,

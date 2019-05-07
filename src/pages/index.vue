@@ -5,7 +5,7 @@
             <div>
                 <p
                     v-if="errorMessage !== ''"
-                    class="error"
+                    class="error error--center"
                 >
                     {{ errorMessage }}
                 </p>
@@ -144,6 +144,7 @@ export default {
     data: () => ({
         items: [],
         errorMessage: '',
+        errorCode: '',
         interval: null,
         currentRide: {
             id: null,
@@ -182,6 +183,8 @@ export default {
     created() {
         console.log('Retrieving latest open rides');
 
+        console.log(this.$store);
+
         // Retrieve first on creation
         this.retrieve()
             .then(() => {
@@ -199,7 +202,7 @@ export default {
         },
 
         retrieve() {
-            if (this.errorMessage !== '') {
+            if (this.errorCode !== '') {
                 console.log('Clearing interval because of error');
                 return clearInterval(this.interval);
             }
@@ -220,6 +223,7 @@ export default {
                     }));
                 })
                 .catch((err) => {
+                    this.errorCode = err.response.status;
                     this.errorMessage = errors[err.response.status];
                 });
         },
@@ -359,9 +363,10 @@ export default {
 }
 
 .error {
-    text-align: center;
-
     color: red;
+}
+.error--center {
+    text-align: center;
 }
 
 </style>

@@ -40,7 +40,14 @@ export {
  * The dropdown button that display the user information, aswell as providing a
  * logout button.
  *
- * @type {Component}
+ * @module Components/Dropdown
+ *
+ * @vue-prop {String} text - The text to display in the button
+ *
+ * @vue-data {Bool} active - The toggle for the dropdown menu
+ *
+ * @vue-event {void} toggle - Toggles the active state
+ * @vue-event {void} blur - Set the active state to false
  */
 export default {
     mixins: [
