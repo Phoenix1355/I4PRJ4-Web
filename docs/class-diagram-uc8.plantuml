@@ -1,0 +1,47 @@
+@startuml UC8-Logout
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam backgroundColor transparent
+skinparam style strictuml
+
+package Nuxt {
+    class $router {
+        + currentRoute
+        --
+        + push(path) : void
+    }
+
+    class $store <<vuex>> {
+        + state : object
+        --
+        + commit(type, payload, options) : Promise
+        + dispatch(type, payload) : Promise
+    }
+}
+
+class auth {
+    + token : string <<get, set>>
+    + user : object <<get, set>>
+    --
+    + logout() : void <<action>>
+    + AuthToken(state, token) : void <<mutation>>
+    + AuthUser(state, info) : void <<mutation>>
+}
+$store ---> auth
+auth --> $router
+
+class api {
+    --
+    + attemptLogin(info) : Promise
+}
+auth --> api
+
+class localStorage <<global>> {
+    --
+    + clear() : void
+}
+auth --> localStorage
+
+@enduml

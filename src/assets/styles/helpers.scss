@@ -1,0 +1,66 @@
+/* -------------------------------------- *\
+    Helpers
+\* -------------------------------------- */
+
+/* --- Mixins --- */
+
+$breakpoints: (
+    'sm'  : 576px,
+  	'md'  : 768px,
+ 	'lg'  : 992px,
+ 	'xl'  : 1200px,
+	'hg'  : 1440px,
+    'en'  : 1600px,
+);
+
+@mixin bp($breakpoint) {
+	$value: map-get($breakpoints, $breakpoint);
+
+	@if $value != null {
+		@media (min-width: $value) {
+			@content;
+		}
+	}
+	@else {
+		@warn "Unfortunately, no value could be retrieved from `#{$breakpoint}`. "
+			+ "Please make sure it is defined in `$breakpoints` map.";
+	}
+}
+
+/* --- Variables --- */
+
+// Font
+$font-body: 'Khula', Arial, sans-serif;
+
+// Font - Weights
+$weight-light: 300;
+$weight-regular: 400;
+$weight-semi: 600;
+$weight-bold: 700;
+
+// Colors - General
+$white: #ffffff;
+$black: #212121;
+
+// Colors - Main
+// $blue: #0273EA;
+$blue: #2E7AD8;
+
+// Colors - Custom
+$border-color: rgba(27, 31, 35, 0.15);
+
+// Colors - Typography
+
+
+// Widths
+$site-width: 1440px;
+
+// UX
+$speed-short: 150ms;
+$speed: 300ms;
+$speed-long: 800ms;
+$animation: ease;
+
+$shadow-small: 0 2px 4px 0 rgba($black, 0.1);
+$shadow-medium: 0px 3px 12px rgba($black, 0.15);
+$shadow-big: 10px 25px 60px 0 rgba($black, 0.2);

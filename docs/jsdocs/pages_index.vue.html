@@ -1,107 +1,135 @@
-<template>
-    <Page>
-        <Container>
-            <h1>Turoversigt</h1>
-            <div>
-                <p
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/index.vue</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/index.vue</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>&lt;template>
+    &lt;Page>
+        &lt;Container>
+            &lt;h1>Turoversigt&lt;/h1>
+            &lt;div>
+                &lt;p
                     v-if="errorMessage !== ''"
-                    class="error error--center"
+                    class="error"
                 >
                     {{ errorMessage }}
-                </p>
-                <ul
+                &lt;/p>
+                &lt;ul
                     v-else-if="items.length > 0"
                     class="rides"
                 >
-                    <li
+                    &lt;li
                         v-for="item in items"
                         :key="item.id"
                         class="item"
                         @click="setRide(item.id)"
                     >
-                        <div class="item-group">
-                            <small>Start</small>
-                            <p>{{ displayLocation(item.startDestination) }}</p>
-                        </div>
-                        <div class="item-group">
-                            <small>Slut</small>
-                            <p>{{ displayLocation(item.endDestination) }}</p>
-                        </div>
-                        <div class="item-group">
-                            <small>Tidspunkt</small>
-                            <p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}</p>
-                        </div>
-                        <div class="item-group">
-                            <small>Pris</small>
-                            <p>{{ item.price }} DKK</p>
-                        </div>
-                    </li>
-                </ul>
-                <p
+                        &lt;div class="item-group">
+                            &lt;small>Start&lt;/small>
+                            &lt;p>{{ displayLocation(item.startDestination) }}&lt;/p>
+                        &lt;/div>
+                        &lt;div class="item-group">
+                            &lt;small>Slut&lt;/small>
+                            &lt;p>{{ displayLocation(item.endDestination) }}&lt;/p>
+                        &lt;/div>
+                        &lt;div class="item-group">
+                            &lt;small>Tidspunkt&lt;/small>
+                            &lt;p>{{ item.departureTime.format("D MMM YYYY, HH:mm") }}&lt;/p>
+                        &lt;/div>
+                        &lt;div class="item-group">
+                            &lt;small>Pris&lt;/small>
+                            &lt;p>{{ item.price }} DKK&lt;/p>
+                        &lt;/div>
+                    &lt;/li>
+                &lt;/ul>
+                &lt;p
                     v-else
                     align="center"
                 >
-                    <i>Henter de seneste ture...</i>
-                </p>
-            </div>
-            <Modal ref="modal">
-                <div slot="content">
-                    <p v-if="currentRide.details == null">Loading...</p>
-                    <div v-else>
-                        <h4>Turoversigt</h4>
-                        <ul>
-                            <li
+                    &lt;i>Henter de seneste ture...&lt;/i>
+                &lt;/p>
+            &lt;/div>
+            &lt;Modal ref="modal">
+                &lt;div slot="content">
+                    &lt;p v-if="currentRide.details == null">Loading...&lt;/p>
+                    &lt;div v-else>
+                        &lt;h4>Turoversigt&lt;/h4>
+                        &lt;ul>
+                            &lt;li
                                 v-for="item in currentRide.details.rides"
                                 :key="item.key"
                             >
-                                <p>{{ displayLocation(item.dest) }}</p>
-                            </li>
-                        </ul>
-                        <h4>Kunder</h4>
-                        <ul>
-                            <li
+                                &lt;p>{{ displayLocation(item.dest) }}&lt;/p>
+                            &lt;/li>
+                        &lt;/ul>
+                        &lt;h4>Kunder&lt;/h4>
+                        &lt;ul>
+                            &lt;li
                                 v-for="item in currentRide.details.customers"
                                 :key="item.customerId"
                             >
-                                <p class="customer">
-                                    <span>{{ item.customer.name }}</span>
-                                    <span>{{ item.customer.phoneNumber }}</span>
-                                    <span>{{ item.customer.email }}</span>
-                                </p>
-                            </li>
-                        </ul>
-                        <h4>Detaljer</h4>
-                        <p>Pris: {{ currentRide.details.price }} DKK</p>
-                        <p>Antal passagerer: {{ currentRide.details.passengerCount }}</p>
-                        <p>
+                                &lt;p class="customer">
+                                    &lt;span>{{ item.customer.name }}&lt;/span>
+                                    &lt;span>{{ item.customer.phoneNumber }}&lt;/span>
+                                    &lt;span>{{ item.customer.email }}&lt;/span>
+                                &lt;/p>
+                            &lt;/li>
+                        &lt;/ul>
+                        &lt;h4>Detaljer&lt;/h4>
+                        &lt;p>Pris: {{ currentRide.details.price }} DKK&lt;/p>
+                        &lt;p>Antal passagerer: {{ currentRide.details.passengerCount }}&lt;/p>
+                        &lt;p>
                             Tidspunkt:
                             {{ currentRide.details.departureTime.format("D MMM YYYY, HH:mm") }}
-                        </p>
-                        <p>
+                        &lt;/p>
+                        &lt;p>
                             Senest bekræftes:
                             {{ currentRide.details.confirmationTime.format("D MMM YYYY, HH:mm") }}
-                        </p>
-                    </div>
-                </div>
-                <template slot="footer">
-                    <Button
+                        &lt;/p>
+                    &lt;/div>
+                &lt;/div>
+                &lt;template slot="footer">
+                    &lt;Button
                         @click="acceptCurrentRide()"
                     >
                         Accepter
-                    </Button>
-                    <Button
-                        variant="secondary"
+                    &lt;/Button>
+                    &lt;Button
+                        type="secondary"
                         @click="closeModal()"
                     >
                         Annuler
-                    </Button>
-                </template>
-            </Modal>
-        </Container>
-    </Page>
-</template>
+                    &lt;/Button>
+                &lt;/template>
+            &lt;/Modal>
+        &lt;/Container>
+    &lt;/Page>
+&lt;/template>
 
-<script>
+&lt;script>
 import Moment from 'moment';
 
 import { openRidesAll, openRidesDetails, openRidesAccept } from '../api';
@@ -144,7 +172,6 @@ export default {
     data: () => ({
         items: [],
         errorMessage: '',
-        errorCode: '',
         interval: null,
         currentRide: {
             id: null,
@@ -183,8 +210,6 @@ export default {
     created() {
         console.log('Retrieving latest open rides');
 
-        console.log(this.$store);
-
         // Retrieve first on creation
         this.retrieve()
             .then(() => {
@@ -202,7 +227,7 @@ export default {
         },
 
         retrieve() {
-            if (this.errorCode !== '') {
+            if (this.errorMessage !== '') {
                 console.log('Clearing interval because of error');
                 return clearInterval(this.interval);
             }
@@ -223,7 +248,6 @@ export default {
                     }));
                 })
                 .catch((err) => {
-                    this.errorCode = err.response.status;
                     this.errorMessage = errors[err.response.status];
                 });
         },
@@ -274,7 +298,7 @@ export default {
                         passengerCount += item.passengerCount;
 
                         if (shortestConf == null
-                        || new Date(item.confirmationDeadline) < new Date(shortestConf)) {
+                        || new Date(item.confirmationDeadline) &lt; new Date(shortestConf)) {
                             console.log('new conf deadline', item.confirmationDeadline);
                             shortestConf = item.confirmationDeadline;
                         }
@@ -316,9 +340,9 @@ export default {
         },
     },
 };
-</script>
+&lt;/script>
 
-<style lang="scss">
+&lt;style lang="scss">
 .content {
     background-color: #F2F1F1;
 }
@@ -345,7 +369,7 @@ export default {
         grid-template-columns: 1fr 1fr 200px 120px;
     }
 
-    &:hover {
+    &amp;:hover {
         box-shadow: $shadow-medium;
         border-color: transparent;
     }
@@ -363,10 +387,32 @@ export default {
 }
 
 .error {
+    text-align: center;
+
     color: red;
 }
-.error--center {
-    text-align: center;
-}
 
-</style>
+&lt;/style>
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Components_Button.html">Components/Button</a></li><li><a href="module-Components_Container.html">Components/Container</a></li><li><a href="module-Components_Dropdown.html">Components/Dropdown</a></li><li><a href="module-Modal.html">Modal</a></li><li><a href="module-Pages_Index.html">Pages/Index</a></li><li><a href="module-Pages_Login.html">Pages/Login</a></li></ul><h3>Global</h3><ul><li><a href="global.html#displayLocation">displayLocation</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.0</a> on Tue May 07 2019 14:46:22 GMT+0200 (Central European Summer Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

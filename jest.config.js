@@ -5,7 +5,7 @@ module.exports = {
     ],
     moduleFileExtensions: [
         'js',
-        'vue',
+        // 'vue',
         'json',
     ],
     transform: {

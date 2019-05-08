@@ -41,6 +41,15 @@ attemptLogin.mockImplementation(({ email, password }) => new Promise(
 
 /* --- TESTS --- */
 describe('Testing actions with mock values', () => {
+    it('Login_ValidInfo_PromiseWasResolved', async () => {
+        const commit = jest.fn();
+
+        await expect(login({ commit }, {
+            email: 'test@test.dk',
+            password: 'Hejhej123-',
+        })).resolves.toEqual(successInfo);
+    });
+
     it('Login_ValidInfo_CommitsWasCalled', async () => {
         const commit = jest.fn();
 
@@ -54,23 +63,16 @@ describe('Testing actions with mock values', () => {
             ['Waiting', false],
             ['AuthToken', successInfo.token],
             ['AuthUser', successInfo.taxiCompany],
-            ['AuthError', 0],
         ]);
     });
 
-    it('Login_InvalidInfo_CommitsWasCalled', async () => {
+    it('Login_InvalidInfo_PromiseWasRejected', async () => {
         const commit = jest.fn();
 
-        await login({ commit }, {
+        await expect(login({ commit }, {
             email: 'test@test.dk',
             password: 'invalid',
-        });
-
-        expect(commit.mock.calls).toEqual([
-            ['Waiting', true],
-            ['Waiting', false],
-            ['AuthError', 400],
-        ]);
+        })).rejects.toEqual(errorInfo);
     });
 
     it('Logout_DefaultState_CommitsWasCalled', async () => {
@@ -80,7 +82,6 @@ describe('Testing actions with mock values', () => {
 
         expect(commit.mock.calls).toEqual([
             ['AuthToken', null],
-            ['AuthError', 0],
         ]);
     });
 });
