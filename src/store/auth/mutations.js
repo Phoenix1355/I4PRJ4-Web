@@ -18,7 +18,3 @@ export function AuthUser(state, { name, email }) {
 
     localStorage.setItem('user', JSON.stringify({ name, email }));
 }
-
-export function AuthError(state, error) {
-    state.error = error;
-}

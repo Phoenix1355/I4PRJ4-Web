@@ -2,7 +2,6 @@
 
 export default {
     token: null,
-    error: '',
     user: {
         name: '',
         email: '',

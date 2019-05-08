@@ -1,0 +1,44 @@
+@startuml UC12-Oversigt
+
+skinparam shadowing false
+skinparam classAttributeIconSize 0
+skinparam monochrome true
+skinparam backgroundColor transparent
+skinparam style strictuml
+
+package Nuxt {
+    class $router {
+        + currentRoute
+        --
+        + push(path) : void
+    }
+
+    class $store <<vuex>> {
+        + state : object
+        + getters : object
+        --
+        + commit(type, payload, options) : Promise
+        + dispatch(type, payload) : Promise
+    }
+}
+
+class auth {
+    + token : string <<get, set>>
+    --
+}
+$store ---> auth
+auth --> $router
+
+class api {
+    --
+    + openRidesAll(token) : Promise
+}
+auth --> api
+
+class axios <<package>> {
+    --
+    + get(url, config) : Promise
+}
+auth --> axios
+
+@enduml

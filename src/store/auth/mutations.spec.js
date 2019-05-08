@@ -2,7 +2,7 @@
 
 import { AuthToken, AuthUser, AuthError } from './mutations';
 
-const localStorageMock = (() => {
+const fakeLocalStorage = (() => {
     let store = {};
     return {
         getItem: jest.fn(key => store[key] || null),
@@ -15,16 +15,22 @@ const localStorageMock = (() => {
         clear: jest.fn(() => {
             store = {};
         }),
-        test: () => console.log('test'),
     };
 })();
 
 Object.defineProperty(global, '_localStorage', {
-    value: localStorageMock,
+    value: fakeLocalStorage,
     writable: false,
 });
 
-describe('mutations', () => {
+describe('AuthMutations', () => {
+    beforeEach(() => {
+        fakeLocalStorage.getItem.mockReset();
+        fakeLocalStorage.setItem.mockReset();
+        fakeLocalStorage.removeItem.mockReset();
+        fakeLocalStorage.clear.mockReset();
+    });
+
     it('AuthToken_SimpleState_StateWasSet', async () => {
         // The fake state
         const state = {
@@ -48,7 +54,7 @@ describe('mutations', () => {
 
         await AuthToken(state, token);
 
-        expect(localStorageMock.setItem).toBeCalledWith('token', token);
+        expect(fakeLocalStorage.setItem).toBeCalledWith('token', token);
     });
 
     it('AuthToken_NullToken_LocalStorageSet', async () => {
@@ -61,7 +67,7 @@ describe('mutations', () => {
 
         await AuthToken(state, token);
 
-        expect(localStorageMock.setItem).toBeCalledWith('token', null);
+        expect(fakeLocalStorage.clear).toBeCalled();
     });
 
     it('AuthUser_SimpleState_StateWasSet', async () => {
@@ -81,16 +87,5 @@ describe('mutations', () => {
         await AuthUser(state, user);
 
         expect(state.user.name).toBe('John');
-    });
-
-    it('AuthError_SimpleState_StateWasSet', async () => {
-        // The fake state
-        const state = {
-            error: '',
-        };
-
-        await AuthError(state, 'New error');
-
-        expect(state.error).toBe('New error');
     });
 });

@@ -15,7 +15,9 @@
                         <strong>{{ email }}</strong>
                     </DropdownHead>
                     <DropdownDivider />
-                    <DropdownItem href="#">
+                    <DropdownItem
+                        disabled
+                    >
                         Rediger konto
                     </DropdownItem>
                     <DropdownItem @click="logout()">
@@ -54,6 +56,13 @@ export default {
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
+        },
+        testToken() {
+            const {
+                token,
+            } = this.$store.state.auth;
+
+            console.log(token);
         },
     },
 };

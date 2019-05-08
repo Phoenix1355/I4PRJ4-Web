@@ -25,11 +25,11 @@ module.exports = {
     loading: { color: '#fff' },
 
     /*
-    ** Global CSS
+    ** Global CSS/SCSS
     */
     css: [
         'normalize.css/normalize.css',
-        '@/styles/main.scss',
+        '@/assets/styles/main.scss',
     ],
 
     /*
@@ -43,13 +43,13 @@ module.exports = {
     */
     modules: [
         '@nuxtjs/axios',
+        '@nuxtjs/style-resources',
     ],
 
-    /*
-    ** Nuxt.js axios
-     */
-    axios: {
-        baseURL: 'https://smartcabbackend.azurewebsites.net',
+    styleResources: {
+        scss: [
+            'assets/styles/main.scss',
+        ],
     },
 
     /*
@@ -64,9 +64,9 @@ module.exports = {
     ** Build configuration
     */
     build: {
-        /*
-        ** You can extend webpack config here
-        */
+        /**
+         * You can extend webpack config here
+         */
         extend(config, ctx) {
             if (ctx.isClient) {
                 // config.externals = externalModules();

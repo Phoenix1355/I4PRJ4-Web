@@ -13,28 +13,30 @@ import { attemptLogin } from '../../api';
 export function login({ commit }, data) {
     commit('Waiting', true);
 
-    return attemptLogin(data) // should be api/TaxiCompany/Login
-        .then((res) => {
-            const {
-                token,
-                taxiCompany,
-            } = res.data;
+    return new Promise((resolve, reject) => {
+        attemptLogin(data) // should be api/TaxiCompany/Login
+            .then((res) => {
+                const {
+                    token,
+                    taxiCompany,
+                } = res.data;
 
-            // Response received, stop waiting
-            commit('Waiting', false);
+                // Response received, stop waiting
+                commit('Waiting', false);
 
-            // Set state auth
-            commit('AuthToken', token);
-            commit('AuthUser', taxiCompany);
+                // Set state auth
+                commit('AuthToken', token);
+                commit('AuthUser', taxiCompany);
 
-            // Reset error status
-            commit('AuthError', 0);
-        })
-        .catch((err) => {
-            commit('Waiting', false);
+                resolve(res.data);
+            })
+            .catch((err) => {
+                // Error carched, stop waiting
+                commit('Waiting', false);
 
-            commit('AuthError', err.response.status);
-        });
+                reject(err);
+            });
+    });
 }
 
 /**
@@ -48,6 +50,4 @@ export function login({ commit }, data) {
  */
 export function logout({ commit }) {
     commit('AuthToken', null);
-
-    commit('AuthError', 0);
 }
