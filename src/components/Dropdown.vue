@@ -88,6 +88,8 @@ export default {
 
         border: 0;
         outline: 0;
+        background-color: transparent;
+
         cursor: pointer;
     }
 
