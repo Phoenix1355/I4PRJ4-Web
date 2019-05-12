@@ -3,7 +3,7 @@
 skinparam shadowing false
 skinparam classAttributeIconSize 0
 skinparam monochrome true
-skinparam backgroundColor transparent
+skinparam background white
 skinparam style strictuml
 
 package Nuxt {
