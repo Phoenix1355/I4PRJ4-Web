@@ -44,12 +44,15 @@
                     <i>Henter de seneste ture...</i>
                 </p>
             </div>
-            <Modal ref="modal">
+            <Modal
+                ref="modal"
+                :onClose="onModalClose"
+            >
                 <div slot="content">
                     <p v-if="currentRide.details == null">Loading...</p>
                     <div v-else>
                         <h4>Turoversigt</h4>
-                        <ul>
+                        <ul class="trip">
                             <li
                                 v-for="item in currentRide.details.rides"
                                 :key="item.key"
@@ -58,18 +61,15 @@
                             </li>
                         </ul>
                         <h4>Kunder</h4>
-                        <ul>
-                            <li
-                                v-for="item in currentRide.details.customers"
-                                :key="item.customerId"
-                            >
-                                <p class="customer">
-                                    <span>{{ item.customer.name }}</span>
-                                    <span>{{ item.customer.phoneNumber }}</span>
-                                    <span>{{ item.customer.email }}</span>
-                                </p>
-                            </li>
-                        </ul>
+                        <p
+                            v-for="item in currentRide.details.customers"
+                            :key="item.customerId"
+                            class="customer"
+                        >
+                            <span>{{ item.customer.name }}</span>
+                            <span>{{ item.customer.phoneNumber }}</span>
+                            <span>{{ item.customer.email }}</span>
+                        </p>
                         <h4>Detaljer</h4>
                         <p>Pris: {{ currentRide.details.price }} DKK</p>
                         <p>Antal passagerer: {{ currentRide.details.passengerCount }}</p>
@@ -83,6 +83,12 @@
                         </p>
                     </div>
                 </div>
+                <template slot="map">
+                    <Map
+                        v-if="currentRide.markers != null"
+                        :markers="currentRide.markers"
+                    />
+                </template>
                 <template slot="footer">
                     <Button
                         @click="acceptCurrentRide()"
@@ -111,6 +117,7 @@ import Button from '../components/Button.vue';
 import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 import Modal from '../components/Modal.vue';
+import Map from '../components/Map.vue';
 
 // List of status errors and the message to display.
 const errors = {
@@ -139,6 +146,7 @@ export default {
         Container,
         Modal,
         Button,
+        Map,
     },
 
     data: () => ({
@@ -149,6 +157,7 @@ export default {
         currentRide: {
             id: null,
             details: null,
+            markers: null,
         },
     }),
 
@@ -181,10 +190,6 @@ export default {
      * @memberOf Pages/Index
      */
     created() {
-        console.log('Retrieving latest open rides');
-
-        console.log(this.$store);
-
         // Retrieve first on creation
         this.retrieve()
             .then(() => {
@@ -199,6 +204,13 @@ export default {
 
         closeModal() {
             this.$refs.modal.close();
+        },
+        onModalClose() {
+            this.currentRide = {
+                id: null,
+                details: null,
+                markers: null,
+            };
         },
 
         retrieve() {
@@ -287,8 +299,13 @@ export default {
                         passengerCount,
                         departureTime: new Moment(sortedRides[0].departureTime),
                         confirmationTime: new Moment(shortestConf),
-
                     };
+
+                    this.currentRide.markers = startDests.concat(endDests).map((item, j) => ({
+                        lat: item.dest.lat,
+                        lng: item.dest.lng,
+                        _id: j,
+                    }));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -297,9 +314,6 @@ export default {
         },
 
         acceptCurrentRide() {
-            // DEBUG: For testing purposes
-            console.log(`Accepting ride: ${this.currentRide.id} `);
-
             // If the ride hasen't been set, we shouldn't try to accept
             if (this.currentRide.id == null) return;
 
@@ -367,6 +381,53 @@ export default {
 }
 .error--center {
     text-align: center;
+}
+
+.trip {
+    position: relative;
+
+    &:before {
+        content: "";
+        position: absolute;
+        left: 0;
+
+        width: 1px;
+        height: calc(100% - 35px);
+        margin: 15px 15px;
+
+        background-color: $black;
+    }
+
+    li {
+        position: relative;
+
+        display: inline-flex;
+        align-items: center;
+
+        &:before {
+            content: "";
+            position: absolute;
+            left: -30px;
+
+            width: 15px;
+            height: 15px;
+            margin: -2px 7.5px 0px;
+
+            background-color: $black;
+            border: 5px solid $white;
+            border-radius: 50%;
+        }
+
+        p {
+            margin: 0 !important;
+        }
+    }
+}
+
+.modal .modal-content .customer {
+    span + span {
+        margin-left: 20px;
+    }
 }
 
 </style>

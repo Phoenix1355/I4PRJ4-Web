@@ -18,7 +18,12 @@
                 </button>
             </div>
             <div class="modal-content">
-                <slot name="content" />
+                <div class="details">
+                    <slot name="content" />
+                </div>
+                <div class="map">
+                    <slot name="map" />
+                </div>
             </div>
             <div class="modal-footer">
                 <slot name="footer" />
@@ -33,6 +38,19 @@
  * @type {Component}
  */
 export default {
+    props: {
+        onOpen: {
+            type: Function,
+            required: false,
+            default: () => {},
+        },
+        onClose: {
+            type: Function,
+            required: false,
+            default: () => {},
+        },
+    },
+
     data: () => ({
         active: false,
     }),
@@ -41,10 +59,12 @@ export default {
         open() {
             console.log('Open() was called!');
             this.active = true;
+            this.onOpen();
         },
         close() {
             console.log('Close() was called!');
             this.active = false;
+            this.onClose();
         },
     },
 };
@@ -60,11 +80,13 @@ export default {
     align-items: center;
     justify-content: center;
     width: 100%;
-    height: 100vh;
+    min-height: 100vh;
+    padding: 40px;
 
     transition: $speed $animation;
     opacity: 0;
     pointer-events: none;
+    overflow-y: auto;
 
     &.is-open {
         opacity: 1;
@@ -89,7 +111,7 @@ export default {
 
         display: grid;
         grid-template-rows: auto 1fr auto;
-        width: 800px;
+        width: 1200px;
         min-height: 400px;
 
         background-color: $white;
@@ -97,6 +119,15 @@ export default {
     }
 
     .modal-content {
+        display: grid;
+        grid-template-columns: 500px auto;
+
+        p {
+            @extend .oat;
+        }
+    }
+
+    .details {
         padding: 10px 30px;
     }
 

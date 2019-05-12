@@ -7,13 +7,13 @@ skinparam backgroundColor transparent
 skinparam style strictuml
 
 package Nuxt {
-    class $router {
+    class $router <<domain>> {
         + currentRoute
         --
         + push(path) : void
     }
 
-    class $store <<vuex>> {
+    class $store <<domain>> {
         + state : object
         --
         + commit(type, payload, options) : Promise
@@ -21,7 +21,7 @@ package Nuxt {
     }
 }
 
-class auth {
+class auth <<domain>> {
     + token : string <<get, set>>
     + user : object <<get, set>>
     --
@@ -32,13 +32,13 @@ class auth {
 $store ---> auth
 auth --> $router
 
-class api {
+class api <<boundary>> {
     --
     + attemptLogin(info) : Promise
 }
 auth --> api
 
-class localStorage <<global>> {
+class localStorage <<boundary>> {
     --
     + clear() : void
 }
