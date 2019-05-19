@@ -22,6 +22,29 @@ package Nuxt {
     }
 }
 
+class login <<controller>> {
+    --
+    - login() : void
+}
+login-->$store
+
+class index <<controller>> {
+    --
+    - created() : void
+    - closeModal() : void
+    - onModalClose() : void
+    - retrieve() : void
+    - setRide(id) : void
+    - acceptCurrentRide() : void
+}
+index-->$store
+
+class header <<controller>> {
+    --
+    - logout() : void
+}
+header-->$store
+
 class auth <<domain>> {
     + token : string <<get, set>>
     + error : string <<get, set>>

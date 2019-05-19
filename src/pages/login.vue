@@ -70,7 +70,7 @@ const errors = {
  * @vue-data {String} [email=''] - The input email
  * @vue-data {String} [password=''] - The input password
  *
- * @vue-computed {String} waiting - Returns the waiting state from the store
+ * @vue-computed {Bool} waiting - Returns the waiting state from the store
  *
  * @vue-event {String} login - Calls the login method on the store
  */

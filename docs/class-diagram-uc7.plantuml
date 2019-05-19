@@ -20,6 +20,12 @@ package Nuxt {
     }
 }
 
+class login <<controller>> {
+    - waiting() : bool
+    - login() : void
+}
+login-->$store
+
 class auth <<domain>> {
     + token : string <<get, set>>
     + error : string <<get, set>>
