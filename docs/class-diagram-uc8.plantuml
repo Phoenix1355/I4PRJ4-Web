@@ -6,6 +6,8 @@ skinparam monochrome true
 skinparam backgroundColor transparent
 skinparam style strictuml
 
+
+
 package Nuxt {
     class $router <<domain>> {
         + currentRoute
@@ -20,6 +22,12 @@ package Nuxt {
         + dispatch(type, payload) : Promise
     }
 }
+
+class header <<controller>> {
+    --
+    - logout() : void
+}
+header-->$store
 
 class auth <<domain>> {
     + token : string <<get, set>>

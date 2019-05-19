@@ -25,6 +25,7 @@ package Nuxt {
 class login <<controller>> {
     --
     - login() : void
+    - waiting() : bool
 }
 login-->$store
 

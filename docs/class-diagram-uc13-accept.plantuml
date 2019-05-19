@@ -21,6 +21,16 @@ package Nuxt {
     }
 }
 
+class index <<controller>> {
+    --
+    - closeModal() : void
+    - onModalClose() : void
+    - setRide(id) : void
+    - acceptCurrentRide() : void
+}
+index-->$store
+
+
 class auth <<domain>> {
     + token : string <<get, set>>
     --
