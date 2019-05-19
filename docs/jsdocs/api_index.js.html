@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: store/auth/actions.js</title>
+    <title>JSDoc: Source: api/index.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: store/auth/actions.js</h1>
+    <h1 class="page-title">Source: api/index.js</h1>
 
     
 
@@ -26,58 +26,85 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// auth/action.js
+            <pre class="prettyprint source linenums"><code>// api/index.js
 
-import { attemptLogin } from '../../api';
+import axios from 'axios';
+
+axios.defaults.baseURL = 'https://smartcabbackend.azurewebsites.net';
 
 /**
- * Action for logging in with a token and taxicompany data
+ * Posts a login attempt to the backend api
  *
- * @method Store/Auth/login
- * @param  {Object} context The store context
- * @param  {Object} data    The data to handle
- * @return {Promise}        A new promise based on the results of the api call
+ * @method Api/attemptLogin
+ * @param  {Object}     context The context holding the username and password for destructuring
+ * @return {Promsie}            The promise from the axios call
  */
-export function login({ commit }, data) {
-    commit('Waiting', true);
+export function attemptLogin({ email, password }) {
+    return axios.post('/api/TaxiCompany/Login', { email, password });
+}
 
-    return new Promise((resolve, reject) => {
-        attemptLogin(data) // should be api/TaxiCompany/Login
-            .then((res) => {
-                const {
-                    token,
-                    taxiCompany,
-                } = res.data;
+/**
+ * Fetches all the current open rides from the backend Api
+ * @method Api/openRidesAll
+ * @param  {String}     token The JWT used as authentication bearer token
+ * @return {Promise}           The promise from the axios call
+ */
+export function openRidesAll(token) {
+    if (token === null || token === '') {
+        return false;
+    }
 
-                // Response received, stop waiting
-                commit('Waiting', false);
-
-                // Set state auth
-                commit('AuthToken', token);
-                commit('AuthUser', taxiCompany);
-
-                resolve(res.data);
-            })
-            .catch((err) => {
-                // Error carched, stop waiting
-                commit('Waiting', false);
-
-                reject(err);
-            });
+    return axios.get('/api/Order/Open', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
     });
 }
 
 /**
- * Action for logging the user out.
- *
- * Removes the active cookie and reset the token.
- *
- * @method Store/Auth/logout
- * @param  {Object} context The store context
- * @return {void}
+ * Fetches details for a given ride with a provided ride id
+ * @method Api/openRidesDetails
+ * @param  {String}         token The JWT used as authentication bearer token
+ * @param  {Number}         id    The ride id number
+ * @return {Promise}              The promise from the axios call
  */
-export function logout({ commit }) {
-    commit('AuthToken', null);
+export function openRidesDetails(token, id) {
+    if (token === null || token === '') {
+        return false;
+    }
+
+    if (id &lt; 0) {
+        return false;
+    }
+
+    return axios.get(`/api/Order/${id}/Details`, {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
+}
+
+/**
+ * Puts a call for accpeting a specific ride
+ * @method Api/openRidesAccept
+ * @param  {String}        token The JWT used for authentication bearer token
+ * @param  {Number}        id    The ride id number
+ * @return {Promise}             The promise from the axios call
+ */
+export function openRidesAccept(token, id) {
+    if (token === null || token === '') {
+        return false;
+    }
+
+    if (id &lt; 0) {
+        return false;
+    }
+
+    return axios.put(`/api/Order/${id}/Accept`, '', {
+        headers: {
+            Authorization: `Bearer ${token}`,
+        },
+    });
 }
 </code></pre>
         </article>

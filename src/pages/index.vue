@@ -132,13 +132,18 @@ const errors = {
  *
  * @vue-data {Array} items - The list of retrieved items
  * @vue-data {String} errorMessage - The latest error message
- * @vue-data {Function} interval - THe interval loop used to call retrieve event
+ * @vue-data {String} errorCode - The latest error message code
+ * @vue-data {Function} interval - The interval loop used to call retrieve event
+ * @vue-data {Object} currentRide - THe current ride details
  *
- * @vue-computed {String} name - Returns the name of the current state account
- * @vue-computed {Bool} loggedIn - Return the login status from the current state
- *
- * @vue-event {} logout - The logout method dispatching 'logout' to the store
+ * @vue-event {void} closeModal - Custom method for closing the modal
+ * @vue-event {Object} onModalClose - The method bound to the modals close prop
  * @vue-event {Array} retrieve - retrieves open rides from backend
+ * @vue-event {Object} setRide - Sets the id as the current ride, and calls the
+ * openRidesDetails api call
+ * @vue-event {Object} acceptCurrentRide - If the current ride is set, calls the
+ * openRidesAccept api call for the current ride
+ *
  */
 export default {
     components: {
@@ -171,16 +176,6 @@ export default {
             },
         ],
     }),
-
-    computed: {
-        name() {
-            // return this.$store.state.auth.user.name || 'temp';
-            return 'temp';
-        },
-        loggedIn() {
-            return this.$store.state.auth.token != null;
-        },
-    },
 
     /**
      * Creation lifecycle hook

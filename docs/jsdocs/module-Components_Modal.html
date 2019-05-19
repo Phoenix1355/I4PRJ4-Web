@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Pages/Login</title>
+    <title>JSDoc: Module: Components/Modal</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Pages/Login</h1>
+    <h1 class="page-title">Module: Components/Modal</h1>
 
     
 
@@ -38,8 +38,40 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>The page displaying the login form</p></p></div></div> 
+            <div class="description"><p>A functional popup modal used for displaying content</p></p></div></div> 
 
+
+<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-props">Props</h3>
+<table data-jsdoc-vuejs="table-props">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default value</th>
+        <th>Required?</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    <tr>
+        <td><code>onOpen</code></td>
+        <td>function</td>
+        <td>-</td>
+        <td><b>Yes</b></td>
+        <td>An binding prop method that calls on the modal open</td>
+    </tr>
+    
+    <tr>
+        <td><code>onClose</code></td>
+        <td>function</td>
+        <td>-</td>
+        <td><b>Yes</b></td>
+        <td>An binding prop method that calls on the modal close</td>
+    </tr>
+    
+    </tbody>
+</table>
 
 
 
@@ -56,50 +88,16 @@
     <tbody>
     
     <tr>
-        <td><code>errorMessage</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The latest error message</td>
-    </tr>
-    
-    <tr>
-        <td><code>email</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input email</td>
-    </tr>
-    
-    <tr>
-        <td><code>password</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input password</td>
+        <td><code>active</code></td>
+        <td>Bool</td>
+        <td>-</td>
+        <td>The modal state (open/closed)</td>
     </tr>
     
     </tbody>
 </table>
 
 
-
-<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-computed">Computed</h3>
-<table data-jsdoc-vuejs="table-computed">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    <tr>
-        <td><code>waiting</code></td>
-        <td>String</td>
-        <td>Returns the waiting state from the store</td>
-    </tr>
-    
-    </tbody>
-</table>
 
 
 
@@ -116,9 +114,15 @@
     <tbody>
     
     <tr>
-        <td><code>login</code></td>
-        <td>String</td>
-        <td>Calls the login method on the store</td>
+        <td><code>open</code></td>
+        <td>Bool</td>
+        <td>Opens the modal</td>
+    </tr>
+    
+    <tr>
+        <td><code>close</code></td>
+        <td>Bool</td>
+        <td>Closes the modal</td>
     </tr>
     
     </tbody>

@@ -33,7 +33,7 @@
             &lt;div>
                 &lt;p
                     v-if="errorMessage !== ''"
-                    class="error"
+                    class="error error--center"
                 >
                     {{ errorMessage }}
                 &lt;/p>
@@ -72,12 +72,15 @@
                     &lt;i>Henter de seneste ture...&lt;/i>
                 &lt;/p>
             &lt;/div>
-            &lt;Modal ref="modal">
+            &lt;Modal
+                ref="modal"
+                :onClose="onModalClose"
+            >
                 &lt;div slot="content">
                     &lt;p v-if="currentRide.details == null">Loading...&lt;/p>
                     &lt;div v-else>
                         &lt;h4>Turoversigt&lt;/h4>
-                        &lt;ul>
+                        &lt;ul class="trip">
                             &lt;li
                                 v-for="item in currentRide.details.rides"
                                 :key="item.key"
@@ -86,18 +89,15 @@
                             &lt;/li>
                         &lt;/ul>
                         &lt;h4>Kunder&lt;/h4>
-                        &lt;ul>
-                            &lt;li
-                                v-for="item in currentRide.details.customers"
-                                :key="item.customerId"
-                            >
-                                &lt;p class="customer">
-                                    &lt;span>{{ item.customer.name }}&lt;/span>
-                                    &lt;span>{{ item.customer.phoneNumber }}&lt;/span>
-                                    &lt;span>{{ item.customer.email }}&lt;/span>
-                                &lt;/p>
-                            &lt;/li>
-                        &lt;/ul>
+                        &lt;p
+                            v-for="item in currentRide.details.customers"
+                            :key="item.customerId"
+                            class="customer"
+                        >
+                            &lt;span>{{ item.customer.name }}&lt;/span>
+                            &lt;span>{{ item.customer.phoneNumber }}&lt;/span>
+                            &lt;span>{{ item.customer.email }}&lt;/span>
+                        &lt;/p>
                         &lt;h4>Detaljer&lt;/h4>
                         &lt;p>Pris: {{ currentRide.details.price }} DKK&lt;/p>
                         &lt;p>Antal passagerer: {{ currentRide.details.passengerCount }}&lt;/p>
@@ -111,6 +111,12 @@
                         &lt;/p>
                     &lt;/div>
                 &lt;/div>
+                &lt;template slot="map">
+                    &lt;Map
+                        v-if="currentRide.markers != null"
+                        :markers="currentRide.markers"
+                    />
+                &lt;/template>
                 &lt;template slot="footer">
                     &lt;Button
                         @click="acceptCurrentRide()"
@@ -118,7 +124,7 @@
                         Accepter
                     &lt;/Button>
                     &lt;Button
-                        type="secondary"
+                        variant="secondary"
                         @click="closeModal()"
                     >
                         Annuler
@@ -139,6 +145,7 @@ import Button from '../components/Button.vue';
 import Page from '../components/Page.vue';
 import Container from '../components/Container.vue';
 import Modal from '../components/Modal.vue';
+import Map from '../components/Map.vue';
 
 // List of status errors and the message to display.
 const errors = {
@@ -153,13 +160,18 @@ const errors = {
  *
  * @vue-data {Array} items - The list of retrieved items
  * @vue-data {String} errorMessage - The latest error message
- * @vue-data {Function} interval - THe interval loop used to call retrieve event
+ * @vue-data {String} errorCode - The latest error message code
+ * @vue-data {Function} interval - The interval loop used to call retrieve event
+ * @vue-data {Object} currentRide - THe current ride details
  *
- * @vue-computed {String} name - Returns the name of the current state account
- * @vue-computed {Bool} loggedIn - Return the login status from the current state
- *
- * @vue-event {} logout - The logout method dispatching 'logout' to the store
+ * @vue-event {void} closeModal - Custom method for closing the modal
+ * @vue-event {Object} onModalClose - The method bound to the modals close prop
  * @vue-event {Array} retrieve - retrieves open rides from backend
+ * @vue-event {Object} setRide - Sets the id as the current ride, and calls the
+ * openRidesDetails api call
+ * @vue-event {Object} acceptCurrentRide - If the current ride is set, calls the
+ * openRidesAccept api call for the current ride
+ *
  */
 export default {
     components: {
@@ -167,15 +179,18 @@ export default {
         Container,
         Modal,
         Button,
+        Map,
     },
 
     data: () => ({
         items: [],
         errorMessage: '',
+        errorCode: '',
         interval: null,
         currentRide: {
             id: null,
             details: null,
+            markers: null,
         },
     }),
 
@@ -190,16 +205,6 @@ export default {
         ],
     }),
 
-    computed: {
-        name() {
-            // return this.$store.state.auth.user.name || 'temp';
-            return 'temp';
-        },
-        loggedIn() {
-            return this.$store.state.auth.token != null;
-        },
-    },
-
     /**
      * Creation lifecycle hook
      *
@@ -208,8 +213,6 @@ export default {
      * @memberOf Pages/Index
      */
     created() {
-        console.log('Retrieving latest open rides');
-
         // Retrieve first on creation
         this.retrieve()
             .then(() => {
@@ -225,9 +228,16 @@ export default {
         closeModal() {
             this.$refs.modal.close();
         },
+        onModalClose() {
+            this.currentRide = {
+                id: null,
+                details: null,
+                markers: null,
+            };
+        },
 
         retrieve() {
-            if (this.errorMessage !== '') {
+            if (this.errorCode !== '') {
                 console.log('Clearing interval because of error');
                 return clearInterval(this.interval);
             }
@@ -248,6 +258,7 @@ export default {
                     }));
                 })
                 .catch((err) => {
+                    this.errorCode = err.response.status;
                     this.errorMessage = errors[err.response.status];
                 });
         },
@@ -311,8 +322,13 @@ export default {
                         passengerCount,
                         departureTime: new Moment(sortedRides[0].departureTime),
                         confirmationTime: new Moment(shortestConf),
-
                     };
+
+                    this.currentRide.markers = startDests.concat(endDests).map((item, j) => ({
+                        lat: item.dest.lat,
+                        lng: item.dest.lng,
+                        _id: j,
+                    }));
                 })
                 .catch((err) => {
                     console.log(err);
@@ -321,9 +337,6 @@ export default {
         },
 
         acceptCurrentRide() {
-            // DEBUG: For testing purposes
-            console.log(`Accepting ride: ${this.currentRide.id} `);
-
             // If the ride hasen't been set, we shouldn't try to accept
             if (this.currentRide.id == null) return;
 
@@ -387,9 +400,57 @@ export default {
 }
 
 .error {
-    text-align: center;
-
     color: red;
+}
+.error--center {
+    text-align: center;
+}
+
+.trip {
+    position: relative;
+
+    &amp;:before {
+        content: "";
+        position: absolute;
+        left: 0;
+
+        width: 1px;
+        height: calc(100% - 35px);
+        margin: 15px 15px;
+
+        background-color: $black;
+    }
+
+    li {
+        position: relative;
+
+        display: inline-flex;
+        align-items: center;
+
+        &amp;:before {
+            content: "";
+            position: absolute;
+            left: -30px;
+
+            width: 15px;
+            height: 15px;
+            margin: -2px 7.5px 0px;
+
+            background-color: $black;
+            border: 5px solid $white;
+            border-radius: 50%;
+        }
+
+        p {
+            margin: 0 !important;
+        }
+    }
+}
+
+.modal .modal-content .customer {
+    span + span {
+        margin-left: 20px;
+    }
 }
 
 &lt;/style>
@@ -403,13 +464,13 @@ export default {
 </div>
 
 <nav>
-    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Components_Button.html">Components/Button</a></li><li><a href="module-Components_Container.html">Components/Container</a></li><li><a href="module-Components_Dropdown.html">Components/Dropdown</a></li><li><a href="module-Modal.html">Modal</a></li><li><a href="module-Pages_Index.html">Pages/Index</a></li><li><a href="module-Pages_Login.html">Pages/Login</a></li></ul><h3>Global</h3><ul><li><a href="global.html#displayLocation">displayLocation</a></li><li><a href="global.html#login">login</a></li><li><a href="global.html#logout">logout</a></li></ul>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-Components_Button.html">Components/Button</a></li><li><a href="module-Components_Container.html">Components/Container</a></li><li><a href="module-Components_Dropdown.html">Components/Dropdown</a></li><li><a href="module-Components_Header.html">Components/Header</a></li><li><a href="module-Components_Map.html">Components/Map</a></li><li><a href="module-Components_Modal.html">Components/Modal</a></li><li><a href="module-Components_Page.html">Components/Page</a></li><li><a href="module-Pages_Index.html">Pages/Index</a></li><li><a href="module-Pages_Login.html">Pages/Login</a></li></ul><h3>Global</h3><ul><li><a href="global.html#Api/attemptLogin">Api/attemptLogin</a></li><li><a href="global.html#Api/openRidesAccept">Api/openRidesAccept</a></li><li><a href="global.html#Api/openRidesAll">Api/openRidesAll</a></li><li><a href="global.html#Api/openRidesDetails">Api/openRidesDetails</a></li><li><a href="global.html#Store/Auth/AuthToken">Store/Auth/AuthToken</a></li><li><a href="global.html#Store/Auth/AuthUser">Store/Auth/AuthUser</a></li><li><a href="global.html#Store/Auth/login">Store/Auth/login</a></li><li><a href="global.html#Store/Auth/logout">Store/Auth/logout</a></li><li><a href="global.html#Utils/displayLocation">Utils/displayLocation</a></li></ul>
 </nav>
 
 <br class="clear">
 
 <footer>
-    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.0</a> on Tue May 07 2019 14:46:22 GMT+0200 (Central European Summer Time)
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.0</a> on Sun May 19 2019 18:39:14 GMT+0200 (Central European Summer Time)
 </footer>
 
 <script> prettyPrint(); </script>

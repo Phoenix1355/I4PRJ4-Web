@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Pages/Login</title>
+    <title>JSDoc: Module: Components/Map</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Pages/Login</h1>
+    <h1 class="page-title">Module: Components/Map</h1>
 
     
 
@@ -38,8 +38,33 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>The page displaying the login form</p></p></div></div> 
+            <div class="description"><p>A map component with google maps integration that displays a given array of
+markers. It is used to display the destinations on the route details.</p></p></div></div> 
 
+
+<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-props">Props</h3>
+<table data-jsdoc-vuejs="table-props">
+    <thead>
+    <tr>
+        <th>Name</th>
+        <th>Type</th>
+        <th>Default value</th>
+        <th>Required?</th>
+        <th>Description</th>
+    </tr>
+    </thead>
+    <tbody>
+    
+    <tr>
+        <td><code>markers</code></td>
+        <td>Array</td>
+        <td>-</td>
+        <td><b>Yes</b></td>
+        <td>The makers to display on the map</td>
+    </tr>
+    
+    </tbody>
+</table>
 
 
 
@@ -56,46 +81,17 @@
     <tbody>
     
     <tr>
-        <td><code>errorMessage</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The latest error message</td>
+        <td><code>center</code></td>
+        <td>Object</td>
+        <td>-</td>
+        <td>The calculated center position based on the given markers</td>
     </tr>
     
     <tr>
-        <td><code>email</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input email</td>
-    </tr>
-    
-    <tr>
-        <td><code>password</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input password</td>
-    </tr>
-    
-    </tbody>
-</table>
-
-
-
-<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-computed">Computed</h3>
-<table data-jsdoc-vuejs="table-computed">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    <tr>
-        <td><code>waiting</code></td>
-        <td>String</td>
-        <td>Returns the waiting state from the store</td>
+        <td><code>zoom</code></td>
+        <td>Object</td>
+        <td>-</td>
+        <td>The calculated zoom level based on the given markers</td>
     </tr>
     
     </tbody>
@@ -104,25 +100,7 @@
 
 
 
-<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-event">Events</h3>
-<table data-jsdoc-vuejs="table-event">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Payload Type</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    <tr>
-        <td><code>login</code></td>
-        <td>String</td>
-        <td>Calls the login method on the store</td>
-    </tr>
-    
-    </tbody>
-</table>
+
 
 
 <div class="container-overview"><div><p> 

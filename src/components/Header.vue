@@ -33,6 +33,17 @@
 import Dropdown, { DropdownHead, DropdownItem, DropdownDivider } from './Dropdown.vue';
 import Container from './Container.vue';
 
+/**
+ * Page header component. Displays the header with the logo and the user dropdown men
+ *
+ * @module Components/Header
+ *
+ * @vue-computed {Bool} loggedIn - Fetches the login state from the store state
+ * @vue-computed {String} name - Fetches the user name from the store state
+ * @vue-computed {String} email - Fetches the user email from the store state
+ *
+ * @vue-event {State} logout - Logs the user out by dispatching logout to the store
+ */
 export default {
     components: {
         Container,
@@ -56,13 +67,6 @@ export default {
         logout() {
             this.$store.dispatch('logout')
                 .then(() => this.$router.push('/login'));
-        },
-        testToken() {
-            const {
-                token,
-            } = this.$store.state.auth;
-
-            console.log(token);
         },
     },
 };

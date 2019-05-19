@@ -19,8 +19,14 @@
 <script>
 
 /**
- * Google maps wrapper for displaying trip
- * @type {String}
+ * A map component with google maps integration that displays a given array of
+ * markers. It is used to display the destinations on the route details.
+ *
+ * @module Components/Map
+ *
+ * @vue-prop {Array} markers - The makers to display on the map
+ * @vue-data {Object} center - The calculated center position based on the given markers
+ * @vue-data {Object} zoom - The calculated zoom level based on the given markers
  */
 export default {
     props: {
@@ -35,23 +41,6 @@ export default {
             lat: 56.1529214,
             lng: 10.2107996,
         },
-        /*
-        markers: [
-            {
-                id: 1,
-                lat: 56.1529214,
-                lng: 10.2107996,
-            },
-            {
-                id: 2,
-                lat: 56.1719587,
-                lng: 10.1916533,
-            },
-        ],
-        */
-        options: {
-        },
-        userPosition: null,
         zoom: 1,
     }),
 
@@ -84,12 +73,6 @@ export default {
         const zoom = (pos, fraction) => Math.abs(Math.floor(Math.log(pos / fraction) * 1.2));
 
         this.zoom = zoom(rad, WORLD_DIM, ZOOM_MAX);
-    },
-
-    methods: {
-        setUserPosition(position) {
-            this.userPosition = position;
-        },
     },
 };
 </script>

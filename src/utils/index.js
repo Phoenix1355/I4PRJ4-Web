@@ -1,3 +1,4 @@
+/* eslint-disable */
 /**
  * Utilities
  */
@@ -5,7 +6,7 @@
 /**
  * Converts a google location into a formatted string
  *
- * @method displayLocation
+ * @method Utils/displayLocation
  * @param  {Object}        args   The location
  * @return {String}               The formatted location string
  */

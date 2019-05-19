@@ -20,13 +20,14 @@
 </template>
 
 <script>
-/**
- * The page wrapper
- * @type {Component}
- */
-
 import Header from './Header.vue';
 
+/**
+ * A resusable wrapper for each page that displays the proper html structure,
+ * including the header component.
+ *
+ * @module Components/Page
+ */
 export default {
     components: {
         Header,

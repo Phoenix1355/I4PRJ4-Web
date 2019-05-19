@@ -1,0 +1,58 @@
+@startuml ComponentDiagram
+
+skinparam style strictuml
+
+frame "Komponent diagram" {
+
+    skinparam node {
+        fontColor Black
+    	backgroundColor white
+    	backgroundColor<<shared node>> Magenta
+    }
+
+    package index.vue {
+        node Page.vue as index_page
+
+        node Header.vue as index_header
+        index_page --> index_header
+
+        node Container.vue as index_container2
+        index_header --> index_container2
+
+        node Dropdown.vue as index_dropdown
+        index_container2 --> index_dropdown
+
+        node Container.vue as index_container
+        index_page --> index_container
+
+        node Modal.vue as index_modal
+        index_container --> index_modal
+
+        node Map.vue as index_map
+        index_modal --> index_map
+
+        node Button.vue as index_button
+        index_modal --> index_button
+    }
+
+    package login.vue {
+        node Page.vue as login_page
+
+        node Header.vue as login_header
+        login_page --> login_header
+
+        node Container.vue as login_container2
+        login_header --> login_container2
+
+        node Dropdown.vue as login_dropdown
+        login_container2 --> login_dropdown
+
+        node Container.vue as login_container
+        login_page --> login_container
+
+        node Button.vue as login_button
+        login_container --> login_button
+    }
+}
+
+@enduml

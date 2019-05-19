@@ -1,0 +1,43 @@
+@startuml
+
+skinparam style strictuml
+
+frame "Komponent diagram" {
+
+    skinparam node {
+        fontColor Black
+    	backgroundColor white
+    	backgroundColor<<shared node>> Magenta
+    }
+
+    node login.vue
+    node index.vue
+
+    node Page.vue
+    login.vue --> Page.vue
+    index.vue --> Page.vue
+
+    node Header.vue
+    login.vue --> Header.vue
+    index.vue --> Header.vue
+
+    node Dropdown.vue
+    Header.vue --> Dropdown.vue
+
+    node Container.vue
+    login.vue --> Container.vue
+    index.vue --> Container.vue
+    Header.vue -> Container.vue
+
+    node Button.vue
+    login.vue --> Button.vue
+    index.vue --> Button.vue
+
+    node Map.vue
+    index.vue --> Map.vue
+
+    node Modal.vue
+    index.vue --> Modal.vue
+}
+
+@enduml

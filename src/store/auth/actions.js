@@ -5,10 +5,10 @@ import { attemptLogin } from '../../api';
 /**
  * Action for logging in with a token and taxicompany data
  *
- * @method login
- * @param  {Object} context The vuex context
- * @param  {Object} data  The data to handle
- * @return {void}
+ * @method Store/Auth/login
+ * @param  {Object} context The store context
+ * @param  {Object} data    The data to handle
+ * @return {Promise}        A new promise based on the results of the api call
  */
 export function login({ commit }, data) {
     commit('Waiting', true);
@@ -44,8 +44,8 @@ export function login({ commit }, data) {
  *
  * Removes the active cookie and reset the token.
  *
- * @method logout
- * @param  {Object} context The vuex context
+ * @method Store/Auth/logout
+ * @param  {Object} context The store context
  * @return {void}
  */
 export function logout({ commit }) {

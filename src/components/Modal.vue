@@ -35,7 +35,16 @@
 <script>
 /**
  * A functional popup modal used for displaying content
- * @type {Component}
+ *
+ * @module Components/Modal
+ *
+ * @vue-prop {Function} onOpen - An binding prop method that calls on the modal open
+ * @vue-prop {Function} onClose - An binding prop method that calls on the modal close
+ *
+ * @vue-data {Bool} active - The modal state (open/closed)
+ *
+ * @vue-event {Bool} open - Opens the modal
+ * @vue-event {Bool} close - Closes the modal
  */
 export default {
     props: {

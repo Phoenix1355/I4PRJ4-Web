@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Module: Pages/Login</title>
+    <title>JSDoc: Module: Components/Header</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Module: Pages/Login</h1>
+    <h1 class="page-title">Module: Components/Header</h1>
 
     
 
@@ -38,46 +38,10 @@
     <div class="container-overview">
     
         
-            <div class="description"><p>The page displaying the login form</p></p></div></div> 
+            <div class="description"><p>Page header component. Displays the header with the logo and the user dropdown men</p></p></div></div> 
 
 
 
-
-<h3 class="subsection-title" style="margin-top: 1em" data-jsdoc-vuejs="section-data">Data</h3>
-<table data-jsdoc-vuejs="table-data">
-    <thead>
-    <tr>
-        <th>Name</th>
-        <th>Type</th>
-        <th>Default value</th>
-        <th>Description</th>
-    </tr>
-    </thead>
-    <tbody>
-    
-    <tr>
-        <td><code>errorMessage</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The latest error message</td>
-    </tr>
-    
-    <tr>
-        <td><code>email</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input email</td>
-    </tr>
-    
-    <tr>
-        <td><code>password</code></td>
-        <td>String</td>
-        <td><code>''</code></td>
-        <td>The input password</td>
-    </tr>
-    
-    </tbody>
-</table>
 
 
 
@@ -93,9 +57,21 @@
     <tbody>
     
     <tr>
-        <td><code>waiting</code></td>
+        <td><code>loggedIn</code></td>
+        <td>Bool</td>
+        <td>Fetches the login state from the store state</td>
+    </tr>
+    
+    <tr>
+        <td><code>name</code></td>
         <td>String</td>
-        <td>Returns the waiting state from the store</td>
+        <td>Fetches the user name from the store state</td>
+    </tr>
+    
+    <tr>
+        <td><code>email</code></td>
+        <td>String</td>
+        <td>Fetches the user email from the store state</td>
     </tr>
     
     </tbody>
@@ -116,9 +92,9 @@
     <tbody>
     
     <tr>
-        <td><code>login</code></td>
-        <td>String</td>
-        <td>Calls the login method on the store</td>
+        <td><code>logout</code></td>
+        <td>State</td>
+        <td>Logs the user out by dispatching logout to the store</td>
     </tr>
     
     </tbody>

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <title>JSDoc: Source: store/auth/actions.js</title>
+    <title>JSDoc: Source: store/auth/mutations.js</title>
 
     <script src="scripts/prettify/prettify.js"> </script>
     <script src="scripts/prettify/lang-css.js"> </script>
@@ -17,7 +17,7 @@
 
 <div id="main">
 
-    <h1 class="page-title">Source: store/auth/actions.js</h1>
+    <h1 class="page-title">Source: store/auth/mutations.js</h1>
 
     
 
@@ -26,58 +26,43 @@
     
     <section>
         <article>
-            <pre class="prettyprint source linenums"><code>// auth/action.js
-
-import { attemptLogin } from '../../api';
+            <pre class="prettyprint source linenums"><code>// auth/mutations.js
 
 /**
- * Action for logging in with a token and taxicompany data
+ * Mutation for setting the current authentication token. Also saves it in the
+ * localStorage
  *
- * @method Store/Auth/login
- * @param  {Object} context The store context
- * @param  {Object} data    The data to handle
- * @return {Promise}        A new promise based on the results of the api call
+ * @method      Store/Auth/AuthToken
+ * @param       {Object}  state The store state
+ * @param       {String}  token The JWT token
+ * @returns     {void}
  */
-export function login({ commit }, data) {
-    commit('Waiting', true);
+export function AuthToken(state, token) {
+    state.token = token;
 
-    return new Promise((resolve, reject) => {
-        attemptLogin(data) // should be api/TaxiCompany/Login
-            .then((res) => {
-                const {
-                    token,
-                    taxiCompany,
-                } = res.data;
-
-                // Response received, stop waiting
-                commit('Waiting', false);
-
-                // Set state auth
-                commit('AuthToken', token);
-                commit('AuthUser', taxiCompany);
-
-                resolve(res.data);
-            })
-            .catch((err) => {
-                // Error carched, stop waiting
-                commit('Waiting', false);
-
-                reject(err);
-            });
-    });
+    if (state.token == null) {
+        localStorage.clear();
+    } else {
+        localStorage.setItem('token', token);
+    }
 }
 
 /**
- * Action for logging the user out.
+ * Mutation for setting the user name and email. Also saves it in the
+ * localStorage
  *
- * Removes the active cookie and reset the token.
- *
- * @method Store/Auth/logout
- * @param  {Object} context The store context
- * @return {void}
+ * @method      Store/Auth/AuthUser
+ * @param       {Object} state The store state
+ * @param       {Object} data  The data object holding the name and email
+ * @returns     {void}
  */
-export function logout({ commit }) {
-    commit('AuthToken', null);
+export function AuthUser(state, { name, email }) {
+    state.user = {
+        name,
+        email,
+    };
+
+    localStorage.setItem('user', JSON.stringify({ name, email }));
 }
 </code></pre>
         </article>

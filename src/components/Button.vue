@@ -10,11 +10,11 @@
 
 <script>
 /**
- * This is an awesome button description
+ * A simple vue button component
  *
  * @module Components/Button
  *
- * @vue-prop {Function} onClick - The binding onclick event prop
+ * @vue-prop {String} variant - The button variant
  */
 export default {
     props: {

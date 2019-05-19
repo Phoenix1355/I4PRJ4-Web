@@ -66,13 +66,13 @@ const errors = {
  *
  * @module Pages/Login
  *
+ * @vue-data {String} [errorMessage=''] - The latest error message
  * @vue-data {String} [email=''] - The input email
  * @vue-data {String} [password=''] - The input password
  *
- * @vue-computed {String} errorMessage - Returns the error message attached to
- * the error status code
+ * @vue-computed {String} waiting - Returns the waiting state from the store
  *
- * @vue-event {String} login - The login method used for logging in
+ * @vue-event {String} login - Calls the login method on the store
  */
 export default {
     components: {

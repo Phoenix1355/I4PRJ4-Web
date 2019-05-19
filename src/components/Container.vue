@@ -6,7 +6,7 @@
 
 <script>
 /**
- * A container module
+ * A container module that displays content in a limited center container box
  *
  * @module Components/Container
  */
