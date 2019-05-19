@@ -11,7 +11,7 @@ import { decode } from 'jsonwebtoken';
 /**
  * Authentication middleware
  *
- * @method
+ * @method Middleware/Auth
  * @param  {Object}  context  The nuxt context that holds the vuex store and routes
  * @return {void}
  */
