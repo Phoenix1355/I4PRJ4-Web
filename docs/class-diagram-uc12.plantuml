@@ -46,6 +46,6 @@ class axios <<boundary>> {
     --
     + get(url, config) : Promise
 }
-auth --> axios
+api -> axios
 
 @enduml

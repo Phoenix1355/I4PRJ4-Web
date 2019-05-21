@@ -40,12 +40,6 @@ class auth <<domain>> {
 $store ---> auth
 auth --> $router
 
-class api <<boundary>> {
-    --
-    + attemptLogin(info) : Promise
-}
-auth --> api
-
 class localStorage <<boundary>> {
     --
     + clear() : void
