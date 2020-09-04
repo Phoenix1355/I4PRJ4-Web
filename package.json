@@ -51,7 +51,7 @@
     "fs": "0.0.1-security",
     "jest": "^24.8.0",
     "jsdoc-vuejs": "^2.4.3",
-    "node-sass": "^4.12.0",
+    "node-sass": "^4.13.1",
     "nodemon": "^1.19.0",
     "sass-loader": "^7.1.0",
     "vue-jest": "^3.0.4"
